@@ -1,5 +1,6 @@
 package edu.illinois.cs.cs125.spring2019.mp3.lib;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -77,7 +78,8 @@ public class RecognizePhoto {
         if (result.getAsJsonObject("description").getAsJsonArray("captions").get(0) == null) {
             return null;
         } else {
-            return result.getAsJsonObject("description").getAsJsonArray("captions").get(0).getAsString();
+            JsonObject asJsonObject = (JsonObject) result.getAsJsonObject("description").getAsJsonArray("captions").get(0);
+            return asJsonObject.get("text").getAsString();
         }
     }
 
@@ -90,7 +92,17 @@ public class RecognizePhoto {
      * @return a boolean indicating whether the image contains a dog or false on failure
      */
     public static boolean isADog(final String json, final double lowConfidence) {
-        return false;
+        if (json == null) {
+            return false;
+        }
+        JsonParser parser = new JsonParser();
+        JsonObject result = parser.parse(json).getAsJsonObject();
+        if (result.getAsJsonObject("description").getAsJsonArray("tags") == null) {
+            return false;
+        } else {
+            return false; //result.getAsJsonObject("description").getAsJsonArray("tags").contains("dog");
+        }
+        //return false;
     }
 
     /**
