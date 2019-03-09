@@ -161,7 +161,7 @@ public class RecognizePhoto {
                 if (ithJsonObject.get("name").getAsString().equals("person_portrait")) {
                     for (int j = 0; j < ithJsonObject.getAsJsonObject("detail").getAsJsonArray("celebrities").size(); j++) {
                         JsonObject celebs = (JsonObject) ithJsonObject.getAsJsonObject("detail").getAsJsonArray("celebrities").get(j);
-                        if (celebs.getAsJsonObject("name").getAsString().equals("Rick Astley")) {
+                        if (celebs.getAsJsonObject("name").getAsString().equals("Rick Astley")) { //stuff
                             return true;
                         }
                     }
