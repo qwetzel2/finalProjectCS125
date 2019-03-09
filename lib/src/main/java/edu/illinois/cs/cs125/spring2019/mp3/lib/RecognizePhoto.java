@@ -159,9 +159,11 @@ public class RecognizePhoto {
             for (int i = 0; i < result.getAsJsonArray("catagories").size(); i++) {
                 JsonObject ithJsonObject = (JsonObject) result.getAsJsonArray("catagories").get(i);
                 if (ithJsonObject.get("name").getAsString().equals("person_portrait")) {
-                    for (int j = 0; j < ithJsonObject.getAsJsonObject("detail").getAsJsonArray("celebrities").size(); j++) {
-                        JsonObject celebs = (JsonObject) ithJsonObject.getAsJsonObject("detail").getAsJsonArray("celebrities").get(j);
-                        if (celebs.getAsJsonObject("name").getAsString().equals("Rick Astley")) { //stuff
+                    for (int j = 0; j < ithJsonObject.getAsJsonObject("detail")
+                            .getAsJsonArray("celebrities").size(); j++) {
+                        JsonObject celebs = (JsonObject) ithJsonObject.getAsJsonObject("detail")
+                                .getAsJsonArray("celebrities").get(j);
+                        if (celebs.getAsJsonObject("name").getAsString().equals("Rick Astley")) {
                             return true;
                         }
                     }
