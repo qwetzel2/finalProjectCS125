@@ -78,8 +78,8 @@ public class RecognizePhoto {
         if (result.getAsJsonObject("description").getAsJsonArray("captions").get(0) == null) {
             return null;
         } else {
-            JsonObject asJsonObject = (JsonObject) result.getAsJsonObject("description").getAsJsonArray("captions").get(0);
-            return asJsonObject.get("text").getAsString();
+            JsonObject asJObject = (JsonObject) result.getAsJsonObject("description").getAsJsonArray("captions").get(0);
+            return asJObject.get("text").getAsString();
         }
     }
 
@@ -97,12 +97,18 @@ public class RecognizePhoto {
         }
         JsonParser parser = new JsonParser();
         JsonObject result = parser.parse(json).getAsJsonObject();
-        if (result.getAsJsonObject("description").getAsJsonArray("tags") == null) {
+
+        if (result.getAsJsonArray("tags") == null) {
             return false;
         } else {
-            return false; //result.getAsJsonObject("description").getAsJsonArray("tags").contains("dog");
+            for (int i = 0; i < result.getAsJsonArray("tags").size(); i++) {
+                JsonObject ithJsonObject = (JsonObject) result.getAsJsonArray("tags").get(i);
+                if (ithJsonObject.get("name").getAsString().equals("dog")) {
+                    return (ithJsonObject.get("confidence").getAsDouble() >= lowConfidence);
+                }
+            }
         }
-        //return false;
+        return false;
     }
 
     /**
@@ -114,6 +120,22 @@ public class RecognizePhoto {
      * @return a boolean indicating whether the image contains a cat or false on failure
      */
     public static boolean isACat(final String json, final double lowConfidence) {
+        if (json == null) {
+            return false;
+        }
+        JsonParser parser = new JsonParser();
+        JsonObject result = parser.parse(json).getAsJsonObject();
+
+        if (result.getAsJsonArray("tags") == null) {
+            return false;
+        } else {
+            for (int i = 0; i < result.getAsJsonArray("tags").size(); i++) {
+                JsonObject ithJsonObject = (JsonObject) result.getAsJsonArray("tags").get(i);
+                if (ithJsonObject.get("name").getAsString().equals("cat")) {
+                    return (ithJsonObject.get("confidence").getAsDouble() >= lowConfidence);
+                }
+            }
+        }
         return false;
     }
 
