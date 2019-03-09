@@ -147,6 +147,28 @@ public class RecognizePhoto {
      * @return true if you've Rickrolled yourself
      */
     public static boolean isRick(final String json) {
+        if (json == null) {
+            return false;
+        }
+        JsonParser parser = new JsonParser();
+        JsonObject result = parser.parse(json).getAsJsonObject();
+
+        if (result.getAsJsonArray("catagories") == null) {
+            return false;
+        } else {
+            for (int i = 0; i < result.getAsJsonArray("catagories").size(); i++) {
+                JsonObject ithJsonObject = (JsonObject) result.getAsJsonArray("catagories").get(i);
+                if (ithJsonObject.get("name").getAsString().equals("person_portrait")) {
+                    for (int j = 0; j < ithJsonObject.getAsJsonObject("detail").getAsJsonArray("celebrities").size(); j++) {
+                        JsonObject celebs = (JsonObject) ithJsonObject.getAsJsonObject("detail").getAsJsonArray("celebrities").get(j);
+                        if (celebs.getAsJsonObject("name").getAsString().equals("Rick Astley")) {
+                            return true;
+                        }
+                    }
+
+                }
+            }
+        }
         return false;
     }
 }
