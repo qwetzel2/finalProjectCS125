@@ -108,6 +108,7 @@ public class RecognizePhotoTest {
     /**
      * Test Rick Identification
      */
+    @Test(timeout = RECOGNIZE_TEST_TIMEOUT)
     public void testRick() {
         for (RecognizePhotoTestInput input : PRECOMPUTED_RESULTS) {
             Assert.assertEquals("photo should find Rick Astley:",

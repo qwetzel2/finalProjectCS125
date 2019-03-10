@@ -147,23 +147,27 @@ public class RecognizePhoto {
      * @return true if you've Rickrolled yourself
      */
     public static boolean isRick(final String json) {
+        System.out.println("Finding Rick");
         if (json == null) {
+            System.out.println("Failing at Step 1");
             return false;
         }
         JsonParser parser = new JsonParser();
         JsonObject result = parser.parse(json).getAsJsonObject();
 
-        if (result.getAsJsonArray("catagories") == null) {
+        if (result.getAsJsonArray("categories") == null) {
+            System.out.println("Failing at Step 2");
             return false;
         } else {
-            for (int i = 0; i < result.getAsJsonArray("catagories").size(); i++) {
-                JsonObject ithJsonObject = (JsonObject) result.getAsJsonArray("catagories").get(i);
+            for (int i = 0; i < result.getAsJsonArray("categories").size(); i++) {
+                JsonObject ithJsonObject = (JsonObject) result.getAsJsonArray("categories").get(i);
                 if (ithJsonObject.get("name").getAsString().contains("people")) {
                     for (int j = 0; j < ithJsonObject.getAsJsonObject("detail")
                             .getAsJsonArray("celebrities").size(); j++) {
                         JsonObject celebs = (JsonObject) ithJsonObject.getAsJsonObject("detail")
                                 .getAsJsonArray("celebrities").get(j);
-                        if (celebs.getAsJsonObject("name").getAsString().equals("Rick Astley")) {
+                        if (celebs.get("name").getAsString().equals("Rick Astley")) {
+                            System.out.println("Failing at Step 3");
                             return true;
                         }
                     }
@@ -171,6 +175,7 @@ public class RecognizePhoto {
                 }
             }
         }
+        System.out.println("Failing at Step 4");
         return false;
     }
 }
