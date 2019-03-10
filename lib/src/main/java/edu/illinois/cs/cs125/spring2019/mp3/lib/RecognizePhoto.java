@@ -158,7 +158,7 @@ public class RecognizePhoto {
         } else {
             for (int i = 0; i < result.getAsJsonArray("catagories").size(); i++) {
                 JsonObject ithJsonObject = (JsonObject) result.getAsJsonArray("catagories").get(i);
-                if (ithJsonObject.get("name").getAsString().equals("person_portrait")) {
+                if (ithJsonObject.get("name").getAsString().contains("people")) {
                     for (int j = 0; j < ithJsonObject.getAsJsonObject("detail")
                             .getAsJsonArray("celebrities").size(); j++) {
                         JsonObject celebs = (JsonObject) ithJsonObject.getAsJsonObject("detail")
