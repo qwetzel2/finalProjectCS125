@@ -331,6 +331,13 @@ public final class MainActivity extends AppCompatActivity {
         String caption = RecognizePhoto.getCaption(jsonResult);
         ImageView showTheDog = findViewById(R.id.dogImage);
         ImageView showTheCat = findViewById(R.id.catImage);
+        TextView showCaption = findViewById(R.id.showCaption);
+        showCaption.setText(caption);
+        showCaption.setVisibility(View.VISIBLE);
+        TextView showMetadata = findViewById(R.id.showMetadata);
+        showMetadata.setText("Format: " + RecognizePhoto.getFormat(jsonResult) + " Width: "
+                + RecognizePhoto.getWidth(jsonResult) + " Height: " + RecognizePhoto.getHeight(jsonResult));
+        showMetadata.setVisibility(View.VISIBLE);
         boolean rick = RecognizePhoto.isRick(jsonResult);
         boolean cat = RecognizePhoto.isACat(jsonResult, RECOGNITION_THRESHOLD);
         if (cat) {
@@ -437,8 +444,14 @@ public final class MainActivity extends AppCompatActivity {
         enableOrDisableButtons(true);
         ImageView showTheDog = findViewById(R.id.dogImage);
         ImageView showTheCat = findViewById(R.id.catImage);
-        showTheDog.setVisibility(View.INVISIBLE);
-        showTheCat.setVisibility(View.INVISIBLE);
+        TextView setCaption = findViewById(R.id.showCaption);
+        TextView setMetadata = findViewById(R.id.showMetadata);
+        if (resetInfo) {
+            setCaption.setVisibility(View.INVISIBLE);
+            showTheDog.setVisibility(View.INVISIBLE);
+            showTheCat.setVisibility(View.INVISIBLE);
+            setMetadata.setVisibility(View.INVISIBLE);
+        }
 
         // Reset the displayed fields to default values. For you to finish!
         /*

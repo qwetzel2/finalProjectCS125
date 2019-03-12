@@ -150,5 +150,17 @@
                 android:textAlignment="viewStart"
                 android:textColor="@android:color/black" />
         </ScrollView>
+
+        <TextView
+            android:id="@+id/showCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/showMetadata"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
     </LinearLayout>
 </LinearLayout>
