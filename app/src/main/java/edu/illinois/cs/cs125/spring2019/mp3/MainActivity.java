@@ -302,6 +302,7 @@ public final class MainActivity extends AppCompatActivity {
         /*
          * Pretty-print the JSON into the bottom text-view to help with debugging.
          */
+        //System.out.println(jsonResult);
         TextView textView = findViewById(R.id.jsonResult);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonParser jsonParser = new JsonParser();
@@ -327,6 +328,22 @@ public final class MainActivity extends AppCompatActivity {
          * Add code here to show the caption, show or hide the dog and cat icons,
          * and deal with Rick.
          */
+        String caption = RecognizePhoto.getCaption(jsonResult);
+        ImageView showTheDog = findViewById(R.id.dogImage);
+        ImageView showTheCat = findViewById(R.id.catImage);
+        boolean rick = RecognizePhoto.isRick(jsonResult);
+        boolean cat = RecognizePhoto.isACat(jsonResult, RECOGNITION_THRESHOLD);
+        if (cat) {
+            showTheCat.setVisibility(View.VISIBLE);
+        } else {
+            showTheCat.setVisibility(View.INVISIBLE);
+        }
+        boolean dog = RecognizePhoto.isADog(jsonResult, RECOGNITION_THRESHOLD);
+        if (dog) {
+            showTheDog.setVisibility(View.VISIBLE);
+        } else {
+            showTheDog.setVisibility(View.INVISIBLE);
+        }
     }
 
     /** Current bitmap we are working with. */
@@ -418,6 +435,10 @@ public final class MainActivity extends AppCompatActivity {
         ImageView photoView = findViewById(R.id.photoView);
         photoView.setImageBitmap(currentBitmap);
         enableOrDisableButtons(true);
+        ImageView showTheDog = findViewById(R.id.dogImage);
+        ImageView showTheCat = findViewById(R.id.catImage);
+        showTheDog.setVisibility(View.INVISIBLE);
+        showTheCat.setVisibility(View.INVISIBLE);
 
         // Reset the displayed fields to default values. For you to finish!
         /*

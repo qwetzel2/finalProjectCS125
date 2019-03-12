@@ -124,6 +124,18 @@
             android:orientation="horizontal">
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/dogImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/chuchu" />
+
+        <ImageView
+            android:id="@+id/catImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/xyz" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
