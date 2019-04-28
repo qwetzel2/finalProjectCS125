@@ -1,166 +1,626 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainLayout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:weightSum="100"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageButton
+        android:id="@+id/king"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/kingNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/queen"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/chuchu" />
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="50">
+    <ImageButton
+        android:id="@+id/jack"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="169dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="jack"
+        app:layout_constraintBottom_toTopOf="@+id/jackNumber"
+        app:layout_constraintEnd_toStartOf="@+id/queen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/chuchu" />
 
-        <ImageView
-            android:id="@+id/photoView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginBottom="8dp"
-            android:contentDescription="@string/current_image"
-            android:scaleType="fitCenter" />
+    <ImageButton
+        android:id="@+id/queen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/queenNumber"
+        app:layout_constraintEnd_toStartOf="@+id/king"
+        app:layout_constraintStart_toEndOf="@+id/jack"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/chuchu" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical" />
-    </FrameLayout>
+    <ImageButton
+        android:id="@+id/nine"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/nineNumber"
+        app:layout_constraintEnd_toStartOf="@+id/ten"
+        app:layout_constraintStart_toEndOf="@+id/eight"
+        app:layout_constraintTop_toBottomOf="@+id/queenNumber"
+        app:srcCompat="@mipmap/chuchu" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="50"
-        android:orientation="vertical">
+    <ImageButton
+        android:id="@+id/eight"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/eightNumber"
+        app:layout_constraintEnd_toStartOf="@+id/nine"
+        app:layout_constraintStart_toEndOf="@+id/seven"
+        app:layout_constraintTop_toBottomOf="@+id/jackNumber"
+        app:srcCompat="@mipmap/chuchu" />
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <ImageButton
+        android:id="@+id/seven"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/sevenNumber"
+        app:layout_constraintEnd_toStartOf="@+id/eight"
+        app:layout_constraintStart_toEndOf="@+id/six"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:srcCompat="@mipmap/chuchu" />
 
-            <ImageButton
-                android:id="@+id/openFile"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/open_file"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_folder_open_black_24dp" />
+    <ImageButton
+        android:id="@+id/six"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/sixNumber"
+        app:layout_constraintEnd_toStartOf="@+id/seven"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
+        app:srcCompat="@mipmap/chuchu" />
 
-            <ImageButton
-                android:id="@+id/rotateLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/rotate_left"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/processImage"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_rotate_left_black_24dp" />
+    <ImageButton
+        android:id="@+id/ace"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/aceNumber"
+        app:layout_constraintEnd_toStartOf="@+id/two"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sixNumber"
+        app:srcCompat="@mipmap/chuchu" />
 
-            <ImageButton
-                android:id="@+id/processImage"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/process_image"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_cloud_upload_black_24dp" />
+    <ImageButton
+        android:id="@+id/two"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/twoNumber"
+        app:layout_constraintEnd_toStartOf="@+id/three"
+        app:layout_constraintStart_toEndOf="@+id/ace"
+        app:layout_constraintTop_toBottomOf="@+id/sevenNumber"
+        app:srcCompat="@mipmap/chuchu" />
 
-            <ImageButton
-                android:id="@+id/downloadFile"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/download_file"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/takePhoto"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_file_download_black_24dp" />
+    <ImageButton
+        android:id="@+id/three"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/threeNumber"
+        app:layout_constraintEnd_toStartOf="@+id/four"
+        app:layout_constraintStart_toEndOf="@+id/two"
+        app:layout_constraintTop_toBottomOf="@+id/eightNumber"
+        app:srcCompat="@mipmap/chuchu" />
 
-            <ImageButton
-                android:id="@+id/takePhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/take_photo"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/openFile"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
+    <ImageButton
+        android:id="@+id/four"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/fourNumber"
+        app:layout_constraintEnd_toStartOf="@+id/five"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toEndOf="@+id/three"
+        app:layout_constraintTop_toBottomOf="@+id/nineNumber"
+        app:srcCompat="@mipmap/chuchu" />
 
-        </android.support.constraint.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/five"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/fiveNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/four"
+        app:layout_constraintTop_toBottomOf="@+id/tenNumber"
+        app:srcCompat="@mipmap/chuchu" />
 
-        <LinearLayout
-            android:id="@+id/lightsHolder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        </LinearLayout>
+    <TextView
+        android:id="@+id/threeNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@threeNumber"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fourNumber"
+        app:layout_constraintStart_toEndOf="@+id/twoNumber"
+        app:layout_constraintTop_toBottomOf="@+id/three" />
 
-        <ImageView
-            android:id="@+id/dogImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/chuchu" />
+    <TextView
+        android:id="@+id/fourNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@fourNumber"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fiveNumber"
+        app:layout_constraintStart_toEndOf="@+id/threeNumber"
+        app:layout_constraintTop_toBottomOf="@+id/four" />
 
-        <ImageView
-            android:id="@+id/catImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/xyz" />
+    <TextView
+        android:id="@+id/fiveNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@fiveNumber"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fourNumber"
+        app:layout_constraintTop_toBottomOf="@+id/five" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+    <TextView
+        android:id="@+id/twoNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@twoNumber"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/threeNumber"
+        app:layout_constraintStart_toEndOf="@+id/aceNumber"
+        app:layout_constraintTop_toBottomOf="@+id/two" />
 
-            <TextView
-                android:id="@+id/jsonResult"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
-                android:textAlignment="viewStart"
-                android:textColor="@android:color/black" />
-        </ScrollView>
+    <ImageView
+        android:id="@+id/acesWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@acesWinner"
+        android:src="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/eightsWinner2"
+        app:layout_constraintEnd_toStartOf="@+id/twosWinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_camera_alt_black_24dp"
+        tools:src="@tools:sample/backgrounds/scenic" />
 
-        <TextView
-            android:id="@+id/showCaption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+    <ImageView
+        android:id="@+id/twosWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@twosWinner"
+        android:src="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/sevensWinner"
+        app:layout_constraintEnd_toStartOf="@+id/threesWinner"
+        app:layout_constraintStart_toEndOf="@+id/acesWinner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/colorAccent" />
 
-        <TextView
-            android:id="@+id/showMetadata"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-    </LinearLayout>
-</LinearLayout>
+    <ImageView
+        android:id="@+id/threesWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@threesWinner"
+        android:src="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/twosWinner"
+        app:layout_constraintEnd_toStartOf="@+id/foursWinner"
+        app:layout_constraintStart_toEndOf="@+id/twosWinner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/foursWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@foursWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toTopOf="@+id/sixesWinner"
+        app:layout_constraintEnd_toStartOf="@+id/fivesWinner"
+        app:layout_constraintStart_toEndOf="@+id/threesWinner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/fivesWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@fivesWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toTopOf="@+id/ninesWinner"
+        app:layout_constraintEnd_toStartOf="@+id/kingsWinner"
+        app:layout_constraintStart_toEndOf="@+id/foursWinner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/sixesWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@sixesWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toBottomOf="@+id/sevensWinner"
+        app:layout_constraintEnd_toStartOf="@+id/ninesWinner"
+        app:layout_constraintStart_toEndOf="@+id/sevensWinner"
+        app:layout_constraintTop_toBottomOf="@+id/threesWinner"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/sevensWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@sevensWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toBottomOf="@+id/eightsWinner2"
+        app:layout_constraintEnd_toStartOf="@+id/sixesWinner"
+        app:layout_constraintStart_toEndOf="@+id/eightsWinner2"
+        app:layout_constraintTop_toBottomOf="@+id/twosWinner"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/eightsWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@eightsWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toBottomOf="@+id/jacksWinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/jacksWinner"
+        app:layout_constraintTop_toBottomOf="@+id/queensWinner"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/eightsWinner2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@eightsWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton2"
+        app:layout_constraintEnd_toStartOf="@+id/sevensWinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/acesWinner"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/ninesWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@ninesWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toBottomOf="@+id/sixesWinner"
+        app:layout_constraintEnd_toStartOf="@+id/tensWinner"
+        app:layout_constraintStart_toEndOf="@+id/sixesWinner"
+        app:layout_constraintTop_toBottomOf="@+id/foursWinner"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/tensWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@tensWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toBottomOf="@+id/ninesWinner"
+        app:layout_constraintEnd_toStartOf="@+id/jacksWinner"
+        app:layout_constraintStart_toEndOf="@+id/ninesWinner"
+        app:layout_constraintTop_toBottomOf="@+id/fivesWinner"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/jacksWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@jacksWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toBottomOf="@+id/tensWinner"
+        app:layout_constraintEnd_toStartOf="@+id/eightsWinner"
+        app:layout_constraintStart_toEndOf="@+id/tensWinner"
+        app:layout_constraintTop_toBottomOf="@+id/kingsWinner"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/queensWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@queensWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toTopOf="@+id/jacksWinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/kingsWinner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/kingsWinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@kingsWinner"
+        android:src="@android:drawable/alert_dark_frame"
+        app:layout_constraintBottom_toTopOf="@+id/tensWinner"
+        app:layout_constraintEnd_toStartOf="@+id/queensWinner"
+        app:layout_constraintStart_toEndOf="@+id/fivesWinner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="22dp"
+        android:text="@playButtonText"
+        app:layout_constraintBottom_toTopOf="@+id/king"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.443"
+        app:layout_constraintStart_toEndOf="@+id/imageButton2"
+        app:layout_constraintTop_toBottomOf="@+id/eightsWinner" />
+
+    <TextView
+        android:id="@+id/aceNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@aceNumber"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/twoNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ace" />
+
+    <TextView
+        android:id="@+id/sixNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@sixNumber"
+        app:layout_constraintBottom_toTopOf="@+id/ace"
+        app:layout_constraintEnd_toStartOf="@+id/sevenNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/six" />
+
+    <TextView
+        android:id="@+id/sevenNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@sevenNumber"
+        app:layout_constraintBottom_toTopOf="@+id/two"
+        app:layout_constraintEnd_toStartOf="@+id/eightNumber"
+        app:layout_constraintStart_toEndOf="@+id/sixNumber"
+        app:layout_constraintTop_toBottomOf="@+id/seven" />
+
+    <TextView
+        android:id="@+id/eightNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@eightNumber"
+        app:layout_constraintBottom_toTopOf="@+id/three"
+        app:layout_constraintEnd_toStartOf="@+id/nineNumber"
+        app:layout_constraintStart_toEndOf="@+id/sevenNumber"
+        app:layout_constraintTop_toBottomOf="@+id/eight" />
+
+    <TextView
+        android:id="@+id/nineNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@nineNumber"
+        app:layout_constraintBottom_toTopOf="@+id/four"
+        app:layout_constraintEnd_toStartOf="@+id/tenNumber"
+        app:layout_constraintStart_toEndOf="@+id/eightNumber"
+        app:layout_constraintTop_toBottomOf="@+id/nine" />
+
+    <TextView
+        android:id="@+id/tenNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@tenNumber"
+        app:layout_constraintBottom_toTopOf="@+id/five"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/four"
+        app:layout_constraintTop_toBottomOf="@+id/ten" />
+
+    <TextView
+        android:id="@+id/jackNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="169dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@jackNumber"
+        app:layout_constraintBottom_toTopOf="@+id/eight"
+        app:layout_constraintEnd_toStartOf="@+id/queenNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jack" />
+
+    <TextView
+        android:id="@+id/queenNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="@queenNumber"
+        app:layout_constraintBottom_toTopOf="@+id/nine"
+        app:layout_constraintEnd_toStartOf="@+id/kingNumber"
+        app:layout_constraintStart_toEndOf="@+id/jackNumber"
+        app:layout_constraintTop_toBottomOf="@+id/queen" />
+
+    <TextView
+        android:id="@+id/kingNumber"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@kingNumber"
+        app:layout_constraintBottom_toTopOf="@+id/ten"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/queenNumber"
+        app:layout_constraintTop_toBottomOf="@+id/king" />
+
+    <TextView
+        android:id="@+id/whatIsGoingOn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@whatIsGoingOn"
+        app:layout_constraintBottom_toTopOf="@+id/foursWinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ten"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/tenNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nineNumber"
+        app:layout_constraintTop_toBottomOf="@+id/kingNumber"
+        app:srcCompat="@mipmap/chuchu" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="130dp"
+        android:layout_height="221dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="270dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/jack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39"
+        app:srcCompat="@mipmap/chuchu" />
+
+</android.support.constraint.ConstraintLayout>

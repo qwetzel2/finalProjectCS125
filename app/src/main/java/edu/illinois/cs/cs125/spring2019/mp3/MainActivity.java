@@ -1,49 +1,70 @@
 package edu.illinois.cs.cs125.spring2019.mp3;
 
-import android.Manifest;
+//import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
+//import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.PorterDuff;
+//import android.content.pm.PackageManager;
+//import android.graphics.Bitmap;
+//import android.graphics.BitmapFactory;
+//import android.graphics.Matrix;
+//import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
+//import android.os.Environment;
+//import android.provider.MediaStore;
+//import android.support.v4.app.ActivityCompat;
+//import android.support.v4.content.ContextCompat;
+//import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
+//import android.text.InputType;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+//import android.view.View;
+//import android.widget.Button;
+//import android.widget.EditText;
+//import android.widget.ImageButton;
+//import android.widget.ImageView;
+//import android.widget.ProgressBar;
+//import android.widget.TextView;
+//import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
+//import com.google.gson.JsonElement;
+//import com.google.gson.JsonParser;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+//import org.apache.commons.io.FileUtils;
+//import org.apache.commons.io.IOUtils;
 
-import java.io.File;
+//import java.io.File;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import edu.illinois.cs.cs125.spring2019.mp3.lib.RecognizePhoto;
+//import java.io.InputStream;
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
+//import java.util.Locale;
+//import edu.illinois.cs.cs125.spring2019.mp3.lib.RecognizePhoto;
+import java.io.BufferedReader;
+//import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import edu.illinois.cs.cs125.spring2019.mp3.lib.Player;
+
+
+//import javax.net.ssl.HttpsURLConnection;
+
 
 /**
  * Main screen for our image recognition app.
@@ -71,6 +92,11 @@ public final class MainActivity extends AppCompatActivity {
     private boolean canWriteToPublicStorage = false;
 
     /**
+     * The deck being used for this instance of the game.
+     */
+    private String deckId;
+
+    /**
      * Run when our activity comes into view.
      *
      * @param savedInstanceState state that was saved by the activity last time it was paused
@@ -84,59 +110,119 @@ public final class MainActivity extends AppCompatActivity {
         // Load the main layout for our activity
         setContentView(R.layout.activity_main);
 
-        /*
-         * Set up handlers for each button in our UI. These run when the buttons are clicked.
-         */
-        final ImageButton openFile = findViewById(R.id.openFile);
-        openFile.setOnClickListener(v -> {
-            Log.d(TAG, "Open file button clicked");
-            startOpenFile();
-        });
-        final ImageButton takePhoto = findViewById(R.id.takePhoto);
-        takePhoto.setOnClickListener(v -> {
-            Log.d(TAG, "Take photo button clicked");
-            startTakePhoto();
-        });
-        final ImageButton downloadFile = findViewById(R.id.downloadFile);
-        downloadFile.setOnClickListener(v -> {
-            Log.d(TAG, "Download file button click");
-            startDownloadFile();
-        });
-        final ImageButton rotateLeft = findViewById(R.id.rotateLeft);
-        rotateLeft.setOnClickListener(v -> {
-            Log.d(TAG, "Rotate left button clicked");
-            rotateLeft();
-        });
-        final ImageButton processImage = findViewById(R.id.processImage);
-        processImage.setOnClickListener(v -> {
-            Log.d(TAG, "Process image button clicked");
-            startProcessImage();
-        });
-
-        // There are a few button that we disable into an image has been loaded
-        enableOrDisableButtons(false);
-
-        // We also want to make sure that our progress bar isn't spinning, and style it a bit
-        ProgressBar progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.INVISIBLE);
-        progressBar.getIndeterminateDrawable()
-                .setColorFilter(getResources()
-                        .getColor(R.color.colorPrimaryDark, getTheme()), PorterDuff.Mode.SRC_IN);
-
-        /*
-         * Here we check for permission to write to external storage and request it if necessary.
-         * Normally you would not want to do this on ever start, but we want to be persistent
-         * since it makes development a lot easier.
-         */
-        canWriteToPublicStorage = (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-        Log.d(TAG, "Do we have permission to write to external storage: "
-                + canWriteToPublicStorage);
-        if (!canWriteToPublicStorage) {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_WRITE_STORAGE);
+        try {
+            requestNewDeck();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        user = new Player("user");
+        cpu = new Player("cpu");
+    }
+
+    /**
+     * Request the deck from the API.
+     *
+     * @throws Exception Does something???
+     */
+    public void requestNewDeck() throws Exception {
+        String url = "https://deckofcardsapi.com/api/deck/new/"; //api URL
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>() {
+                        @Override
+            public void onResponse(final JSONObject response) {
+                        System.out.println(response.toString());
+                        try {
+                            deckId = (String) response.get("deck_id");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(deckId);
+                        startGame();
+                        }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                        public void onErrorResponse(final VolleyError error) {
+                            // TODO: Handle error
+                        }
+                });
+        //System.out.println(deckId);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    /**
+     * Draw a new card from the api.
+     * @param toDraw the player who is drawing the card.
+     */
+    public void drawACard(final Player toDraw) {
+        String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/draw/?count=1";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        try {
+                            JSONObject object = (JSONObject) response.getJSONArray("cards").get(0);
+                            String cardID = object.get("code").toString();
+                            System.out.println("-------------" + cardID + "--------------");
+                            String urlToPile = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/"
+                                    + toDraw.pileName + "/add/?cards=" + cardID;
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlToPile,
+                                    null, new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(final JSONObject response) {
+                                            System.out.println("______________Success________________");
+                                        }
+                                    }, new Response.ErrorListener() {
+
+                                        @Override
+                                        public void onErrorResponse(final VolleyError error) {
+                                            // TODO: Handle error
+                                        }
+                                    });
+                            requestQueue.add(jsonObjectRequest);
+
+
+
+
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(final VolleyError error) {
+                // TODO: Handle error
+            }
+        });
+        //System.out.println(deckId);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private Player user;
+
+    private Player cpu;
+
+    /**
+     * Beginning of game.
+     */
+    public void startGame() {
+        turn(user, cpu);
+    }
+
+    /**
+     * One turn of the game.
+     * @param myTurn the player who is currently playing their turn.
+     * @param notMyTurn the player who is not currently taking their turn.
+     */
+    public void turn(final Player myTurn, final Player notMyTurn) {
+        drawACard(myTurn);
+
+
+
     }
 
     /**
@@ -157,7 +243,7 @@ public final class MainActivity extends AppCompatActivity {
         if (resultCode != Activity.RESULT_OK) {
             Log.w(TAG, "onActivityResult with code " + requestCode + " failed");
             if (requestCode == IMAGE_CAPTURE_REQUEST_CODE) {
-                photoRequestActive = false;
+                //photoRequestActive = false;
             }
             return;
         }
@@ -167,350 +253,18 @@ public final class MainActivity extends AppCompatActivity {
         if (requestCode == READ_REQUEST_CODE) {
             currentPhotoURI = resultData.getData();
         } else if (requestCode == IMAGE_CAPTURE_REQUEST_CODE) {
-            currentPhotoURI = Uri.fromFile(currentPhotoFile);
-            photoRequestActive = false;
+            //currentPhotoURI = Uri.fromFile(currentPhotoFile);
+            //photoRequestActive = false;
             if (canWriteToPublicStorage) {
-                addPhotoToGallery(currentPhotoURI);
+                //addPhotoToGallery(currentPhotoURI);
             }
         } else {
             Log.w(TAG, "Unhandled activityResult with code " + requestCode);
             return;
         }
 
-        // Now load the photo into the view
-        Log.d(TAG, "Photo selection produced URI " + currentPhotoURI);
-        loadPhoto(currentPhotoURI);
     }
 
-
-    /**
-     * Start an open file dialog to look for image files.
-     */
-    private void startOpenFile() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        startActivityForResult(intent, READ_REQUEST_CODE);
-    }
-
-    /** Current file that we are using for our image request. */
-    private boolean photoRequestActive = false;
-
-    /** Whether a current photo request is being processed. */
-    private File currentPhotoFile = null;
-
-    /** Take a photo using the camera. */
-    private void startTakePhoto() {
-        if (photoRequestActive) {
-            Log.w(TAG, "Overlapping photo requests");
-            return;
-        }
-
-        // Set up an intent to launch the camera app and have it take a photo for us
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        currentPhotoFile = getSaveFilename();
-        if (takePictureIntent.resolveActivity(getPackageManager()) == null
-                || currentPhotoFile == null) {
-            // Alert the user if there was a problem taking the photo
-            Toast.makeText(getApplicationContext(), "Problem taking photo",
-                    Toast.LENGTH_LONG).show();
-            Log.w(TAG, "Problem taking photo");
-            return;
-        }
-
-        // Configure and launch the intent
-        Uri photoURI = FileProvider.getUriForFile(this,
-                "edu.illinois.cs.cs125.spring2019.mp3.fileprovider", currentPhotoFile);
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-        photoRequestActive = true;
-        startActivityForResult(takePictureIntent, IMAGE_CAPTURE_REQUEST_CODE);
-    }
-
-    /** URL storing the file to download. */
-    private String downloadFileURL;
-
-    /** Initiate the file download process. */
-    private void startDownloadFile() {
-
-        // Build a dialog that we will use to ask for the URL to the photo
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Download File");
-        final EditText input = new EditText(MainActivity.this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-        builder.setPositiveButton("OK", (dialog, unused) -> {
-            // If the user clicks OK, try and download the file
-            downloadFileURL = input.getText().toString().trim();
-            Log.d(TAG, "Got download URL " + downloadFileURL);
-            new Tasks.DownloadFileTask(MainActivity.this, requestQueue)
-                    .execute(downloadFileURL);
-        });
-        builder.setNegativeButton("Cancel", (dialog, unused) -> dialog.cancel());
-
-        // Display the dialog
-        builder.show();
-    }
-
-    /** Degrees for a 90 degree left rotation. */
-    private static final int ROTATE_LEFT = -90;
-
-    /**
-     * Rotate the image to the left.
-     *
-     * Mainly to deal with idiocy caused by the emulated camera.
-     */
-    private void rotateLeft() {
-        if (currentBitmap == null) {
-            Toast.makeText(getApplicationContext(), "No image selected",
-                    Toast.LENGTH_LONG).show();
-            Log.w(TAG, "No image selected");
-            return;
-        }
-
-        Log.d(TAG, "Starting rotation");
-
-        Matrix matrix = new Matrix();
-        matrix.postRotate(ROTATE_LEFT);
-        updateCurrentBitmap(Bitmap.createBitmap(currentBitmap,
-                0, 0, currentBitmap.getWidth(), currentBitmap.getHeight(), matrix, true), false);
-    }
-
-    /** Initiate the image recognition process. */
-    private void startProcessImage() {
-        if (currentBitmap == null) {
-            Toast.makeText(getApplicationContext(), "No image selected",
-                    Toast.LENGTH_LONG).show();
-            Log.w(TAG, "No image selected");
-            return;
-        }
-
-        /*
-         * Launch our background task which actually makes the request. It will call
-         * finishProcessImage below with the JSON string when it finishes.
-         */
-        new Tasks.ProcessImageTask(MainActivity.this, requestQueue)
-                .execute(currentBitmap);
-    }
-
-    /**
-     * Process the result from making the API call.
-     *
-     * @param jsonResult the result of the API call as a string
-     * */
-    protected void finishProcessImage(final String jsonResult) {
-        /*
-         * Pretty-print the JSON into the bottom text-view to help with debugging.
-         */
-        //System.out.println(jsonResult);
-        TextView textView = findViewById(R.id.jsonResult);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser jsonParser = new JsonParser();
-        JsonElement jsonElement = jsonParser.parse(jsonResult);
-        String prettyJsonString = gson.toJson(jsonElement);
-        textView.setText(prettyJsonString);
-
-        /*
-         * Create a string describing the image type, width and height.
-         */
-        int width = RecognizePhoto.getWidth(jsonResult);
-        int height = RecognizePhoto.getHeight(jsonResult);
-        String format = RecognizePhoto.getFormat(jsonResult);
-        assert format != null;
-        format = format.toUpperCase();
-        String description = String.format(Locale.US, "%s (%d x %d)", format, width, height);
-
-        /*
-         * Update the UI to display the string.
-         */
-
-        /*
-         * Add code here to show the caption, show or hide the dog and cat icons,
-         * and deal with Rick.
-         */
-        String caption = RecognizePhoto.getCaption(jsonResult);
-        ImageView showTheDog = findViewById(R.id.dogImage);
-        ImageView showTheCat = findViewById(R.id.catImage);
-        TextView showCaption = findViewById(R.id.showCaption);
-        showCaption.setText(caption);
-        showCaption.setVisibility(View.VISIBLE);
-        TextView showMetadata = findViewById(R.id.showMetadata);
-        showMetadata.setText("Format: " + RecognizePhoto.getFormat(jsonResult) + " Width: "
-                + RecognizePhoto.getWidth(jsonResult) + " Height: " + RecognizePhoto.getHeight(jsonResult));
-        showMetadata.setVisibility(View.VISIBLE);
-        boolean rick = RecognizePhoto.isRick(jsonResult);
-        boolean cat = RecognizePhoto.isACat(jsonResult, RECOGNITION_THRESHOLD);
-        if (cat) {
-            showTheCat.setVisibility(View.VISIBLE);
-        } else {
-            showTheCat.setVisibility(View.INVISIBLE);
-        }
-        boolean dog = RecognizePhoto.isADog(jsonResult, RECOGNITION_THRESHOLD);
-        if (dog) {
-            showTheDog.setVisibility(View.VISIBLE);
-        } else {
-            showTheDog.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    /** Current bitmap we are working with. */
-    private Bitmap currentBitmap;
-
-    /**
-     * Process a photo.
-     *
-     * Resizes an image and loads it into the UI.
-     *
-     * @param currentPhotoURI URI of the image to process
-     */
-    private void loadPhoto(final Uri currentPhotoURI) {
-        enableOrDisableButtons(false);
-        final ImageButton rotateLeft = findViewById(R.id.rotateLeft);
-        rotateLeft.setClickable(false);
-        rotateLeft.setEnabled(false);
-
-        if (currentPhotoURI == null) {
-            Toast.makeText(getApplicationContext(), "No image selected",
-                    Toast.LENGTH_LONG).show();
-            Log.w(TAG, "No image selected");
-            return;
-        }
-        String uriScheme = currentPhotoURI.getScheme();
-
-        byte[] imageData;
-        try {
-            assert uriScheme != null;
-            switch (uriScheme) {
-                case "file":
-                    imageData = FileUtils.readFileToByteArray(new File(currentPhotoURI.getPath()));
-                    break;
-                case "content":
-                    InputStream inputStream = getContentResolver().openInputStream(currentPhotoURI);
-                    assert inputStream != null;
-                    imageData = IOUtils.toByteArray(inputStream);
-                    inputStream.close();
-                    break;
-                default:
-                    Toast.makeText(getApplicationContext(), "Unknown scheme " + uriScheme,
-                            Toast.LENGTH_LONG).show();
-                    return;
-            }
-        } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), "Error processing file",
-                    Toast.LENGTH_LONG).show();
-            Log.w(TAG, "Error processing file: " + e);
-            return;
-        }
-
-        /*
-         * Resize the image appropriately for the display.
-         */
-        final ImageView photoView = findViewById(R.id.photoView);
-        int targetWidth = photoView.getWidth();
-        int targetHeight = photoView.getHeight();
-
-        BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
-        decodeOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeByteArray(imageData, 0, imageData.length, decodeOptions);
-
-        int actualWidth = decodeOptions.outWidth;
-        int actualHeight = decodeOptions.outHeight;
-        int scaleFactor = Math.min(actualWidth / targetWidth, actualHeight / targetHeight);
-
-        BitmapFactory.Options modifyOptions = new BitmapFactory.Options();
-        modifyOptions.inJustDecodeBounds = false;
-        modifyOptions.inSampleSize = scaleFactor;
-
-        // Actually draw the image
-        updateCurrentBitmap(BitmapFactory.decodeByteArray(imageData,
-                0, imageData.length, modifyOptions), true);
-    }
-
-    /*
-     * Helper functions follow.
-     */
-
-    /**
-     * Update the currently displayed image, resetting the image information (caption, metadata,
-     * cat/dog indicators) if requested.
-     *
-     * @param setCurrentBitmap the new bitmap to display
-     * @param resetInfo whether to reset the image information
-     */
-    void updateCurrentBitmap(final Bitmap setCurrentBitmap, final boolean resetInfo) {
-        currentBitmap = setCurrentBitmap;
-        ImageView photoView = findViewById(R.id.photoView);
-        photoView.setImageBitmap(currentBitmap);
-        enableOrDisableButtons(true);
-        ImageView showTheDog = findViewById(R.id.dogImage);
-        ImageView showTheCat = findViewById(R.id.catImage);
-        TextView setCaption = findViewById(R.id.showCaption);
-        TextView setMetadata = findViewById(R.id.showMetadata);
-        if (resetInfo) {
-            setCaption.setVisibility(View.INVISIBLE);
-            showTheDog.setVisibility(View.INVISIBLE);
-            showTheCat.setVisibility(View.INVISIBLE);
-            setMetadata.setVisibility(View.INVISIBLE);
-        }
-
-        // Reset the displayed fields to default values. For you to finish!
-        /*
-        if (resetInfo) {
-
-        }
-        */
-    }
-
-    /**
-     * Helper function to swap button states.
-     *
-     * We disable the buttons when we don't have a valid image to process.
-     *
-     * @param enableOrDisable whether to enable or disable the buttons
-     */
-    private void enableOrDisableButtons(final boolean enableOrDisable) {
-        final ImageButton rotateLeft = findViewById(R.id.rotateLeft);
-        rotateLeft.setClickable(enableOrDisable);
-        rotateLeft.setEnabled(enableOrDisable);
-        final ImageButton processImage = findViewById(R.id.processImage);
-        processImage.setClickable(enableOrDisable);
-        processImage.setEnabled(enableOrDisable);
-    }
-
-    /**
-     * Add a photo to the gallery so that we can use it later.
-     *
-     * @param toAdd URI of the file to add
-     */
-    void addPhotoToGallery(final Uri toAdd) {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        mediaScanIntent.setData(toAdd);
-        this.sendBroadcast(mediaScanIntent);
-        Log.d(TAG, "Added photo to gallery: " + toAdd);
-    }
-
-    /**
-     * Get a new file location for saving.
-     *
-     * @return the path to the new file or null of the create failed
-     */
-    File getSaveFilename() {
-        String imageFileName = "MP3_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
-                .format(new Date());
-        File storageDir;
-        if (canWriteToPublicStorage) {
-            storageDir = Environment
-                    .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        } else {
-            storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        }
-        try {
-            return File.createTempFile(imageFileName, ".jpg", storageDir);
-        } catch (IOException e) {
-            Log.w(TAG, "Problem saving file: " + e);
-            return null;
-        }
-    }
 
     /**
      * Gets the Volley request queue for this activity. For testing purposes only.
@@ -528,3 +282,4 @@ public final class MainActivity extends AppCompatActivity {
         requestQueue = newQueue;
     }
 }
+
