@@ -10,6 +10,7 @@ import android.content.Intent;
 //import android.graphics.Matrix;
 //import android.graphics.PorterDuff;
 //import android.media.Image;
+//import android.media.Image;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -270,6 +271,8 @@ public final class MainActivity extends AppCompatActivity {
         queenWinner.setVisibility(View.INVISIBLE);
         kingWinner = findViewById(R.id.sevensWinner);
         kingWinner.setVisibility(View.INVISIBLE);
+        ImageView placeholder = findViewById(R.id.eightsWinner2);
+        placeholder.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -359,14 +362,20 @@ public final class MainActivity extends AppCompatActivity {
                                 }
                             }
                             if (toReturn == null || toReturn.size() == 0) {
-                                goFish(myTurn, notMyTurn);
                                 if (myTurn.equals(user)) {
                                     whatIsGoingOn.setText("GO FISH");
+                                } else {
+                                    whatIsGoingOn.setText("GO FISH");
+                                    playButton.setText("GO FISH");
                                 }
+                                goFish(myTurn, notMyTurn);
                             } else {
                                 transferCards(myTurn, notMyTurn, toReturn);
                                 if (myTurn.equals(user)) {
                                     whatIsGoingOn.setText("TRANSFER CARDS");
+                                } else {
+                                    whatIsGoingOn.setText("TRANSFER CARDS");
+                                    playButton.setText("TRANSFER CARDS");
                                 }
                             }
                         } catch (Exception e) {
@@ -390,7 +399,6 @@ public final class MainActivity extends AppCompatActivity {
      * @param cardsToTransferList the cards that will be transfer
      */
     public void transferCards(final Player myTurn, final Player notMyTurn, final List<String> cardsToTransferList) {
-        System.out.println("_______________Cards to Transfer: " + cardsToTransferList + "_________________________");
         String cardsToTransfer = "";
         if (myTurn.equals(user)) {
             for (String cardID : cardsToTransferList) {
@@ -464,16 +472,13 @@ public final class MainActivity extends AppCompatActivity {
                 null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(final JSONObject response) {
-                        System.out.println("------------------" + response + "-------------------");
                         try {
                             List<String> toReturn = new ArrayList<>();
                             JSONArray cards = response.getJSONArray("cards");
-                            System.out.println("++++++++++++++++++++++++" + cards + "++++++++++++++++++");
                             for (int i = 0; i < cards.length(); i++) {
                                 JSONObject card = (JSONObject) cards.get(i);
                                 toReturn.add(card.get("code").toString());
                             }
-                            System.out.println("                To return: " + toReturn);
                             String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/"
                                     + myTurn.pileName + "/add/?cards=" + toReturn; //api URL
 
@@ -481,10 +486,8 @@ public final class MainActivity extends AppCompatActivity {
                                     null, new Response.Listener<JSONObject>() {
                                         @Override
                                         public void onResponse(final JSONObject response) {
-                                            System.out.print("YYYYYYYYYYYYYYYAAAAAAAAAAAAAAAAASSSSSSSSSSSS");
                                             whatIsGoingOn.setText("Cards have been transferred");
                                             resetNumbers();
-                                            pileCompleteCheck(myTurn);
                                         }
                                     }, new Response.ErrorListener() {
                                         @Override
@@ -939,9 +942,7 @@ public final class MainActivity extends AppCompatActivity {
                                                 }
                                                 whatIsGoingOn.setText("You have drawn a " + cardID);
                                                 resetNumbers();
-
                                             }
-                                            pileCompleteCheck(toDraw);
                                         }
                                     }, new Response.ErrorListener() {
 
@@ -1065,7 +1066,6 @@ public final class MainActivity extends AppCompatActivity {
                             } else {
                                 playerName = "user";
                             }
-                            System.out.println("RESPONSE:     " + response);
                             JSONArray cards = response.getJSONObject("piles").getJSONObject(playerName)
                                     .getJSONArray("cards");
                             for (int i = 0; i < cards.length(); i++) {
@@ -1184,6 +1184,8 @@ public final class MainActivity extends AppCompatActivity {
      * Reset the textviews for the UI.
      */
     public void resetNumbers() {
+        pileCompleteCheck(user);
+        pileCompleteCheck(cpu);
         if (acesDrawn == 0) {
             aceNumber.setVisibility(View.INVISIBLE);
             ace.setVisibility(View.INVISIBLE);
@@ -1316,12 +1318,11 @@ public final class MainActivity extends AppCompatActivity {
                                             askForCards(cpu, user, cardID.substring(0, 1));
                                             String urlToPile = "https://deckofcardsapi.com/api/deck/"
                                                     + deckId + "/pile/" + cpu.pileName + "/add/?cards=" + cardID;
-                                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlToPile,
-                                                    null, new Response.Listener<JSONObject>() {
+                                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                                                    Request.Method.GET, urlToPile, null, new Response.Listener<JSONObject>() {
                                                         @Override
                                                         public void onResponse(final JSONObject response) {
-                                                            whatIsGoingOn.setText("Do you have any " + cardID.substring(0,1) + "'s");
-
+                                                            whatIsGoingOn.setText("Do you have any " + cardID.substring(0, 1) + "'s");
                                                         }
                                                     }, new Response.ErrorListener() {
                                                         @Override

@@ -243,13 +243,14 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@acesWinner"
         android:scaleType="fitCenter"
-        android:src="@color/colorPrimary"
+        android:src="@drawable/da"
         app:layout_constraintBottom_toTopOf="@+id/eightsWinner2"
         app:layout_constraintEnd_toStartOf="@+id/twosWinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/da"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        tools:src="@tools:sample/backgrounds/scenic"
+        tools:srcCompat="@drawable/da" />
 
     <ImageView
         android:id="@+id/twosWinner"
@@ -260,12 +261,13 @@
         android:layout_marginEnd="4dp"
         android:contentDescription="@twosWinner"
         android:scaleType="fitCenter"
-        android:src="@color/colorAccent"
+        android:src="@drawable/d2"
         app:layout_constraintBottom_toTopOf="@+id/sevensWinner"
         app:layout_constraintEnd_toStartOf="@+id/threesWinner"
         app:layout_constraintStart_toEndOf="@+id/acesWinner"
         app:layout_constraintTop_toBottomOf="@+id/whatIsGoingOn"
-        app:srcCompat="@drawable/d2" />
+        app:srcCompat="@drawable/d2"
+        tools:srcCompat="@drawable/d2" />
 
     <ImageView
         android:id="@+id/threesWinner"
@@ -276,13 +278,14 @@
         android:layout_marginEnd="4dp"
         android:contentDescription="@threesWinner"
         android:scaleType="fitCenter"
-        android:src="@color/colorAccent"
+        android:src="@drawable/d3"
         app:layout_constraintBottom_toBottomOf="@+id/twosWinner"
         app:layout_constraintEnd_toStartOf="@+id/foursWinner"
         app:layout_constraintStart_toEndOf="@+id/twosWinner"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/d3" />
+        app:srcCompat="@drawable/d3"
+        tools:srcCompat="@drawable/d3" />
 
     <ImageView
         android:id="@+id/foursWinner"
@@ -294,12 +297,13 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@foursWinner"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/d4"
         app:layout_constraintBottom_toTopOf="@+id/sixesWinner"
         app:layout_constraintEnd_toStartOf="@+id/fivesWinner"
         app:layout_constraintStart_toEndOf="@+id/threesWinner"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/d4" />
+        app:srcCompat="@drawable/d4"
+        tools:srcCompat="@drawable/d4" />
 
     <ImageView
         android:id="@+id/fivesWinner"
@@ -311,12 +315,13 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@fivesWinner"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/d5"
         app:layout_constraintBottom_toTopOf="@+id/ninesWinner"
         app:layout_constraintEnd_toStartOf="@+id/kingsWinner"
         app:layout_constraintStart_toEndOf="@+id/foursWinner"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/d5" />
+        app:srcCompat="@drawable/d5"
+        tools:srcCompat="@drawable/d5" />
 
     <ImageView
         android:id="@+id/sixesWinner"
@@ -327,12 +332,13 @@
         android:layout_marginEnd="4dp"
         android:contentDescription="@sixesWinner"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/d6"
         app:layout_constraintBottom_toBottomOf="@+id/sevensWinner"
         app:layout_constraintEnd_toStartOf="@+id/ninesWinner"
         app:layout_constraintStart_toEndOf="@+id/sevensWinner"
         app:layout_constraintTop_toBottomOf="@+id/threesWinner"
-        app:srcCompat="@drawable/dq" />
+        app:srcCompat="@drawable/dq"
+        tools:srcCompat="@drawable/dq" />
 
     <ImageView
         android:id="@+id/sevensWinner"
@@ -343,12 +349,13 @@
         android:layout_marginEnd="4dp"
         android:contentDescription="@sevensWinner"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/d7"
         app:layout_constraintBottom_toBottomOf="@+id/eightsWinner2"
         app:layout_constraintEnd_toStartOf="@+id/sixesWinner"
         app:layout_constraintStart_toEndOf="@+id/eightsWinner2"
         app:layout_constraintTop_toBottomOf="@+id/twosWinner"
-        app:srcCompat="@drawable/dk" />
+        app:srcCompat="@drawable/dk"
+        tools:srcCompat="@drawable/dk" />
 
     <ImageView
         android:id="@+id/eightsWinner"
@@ -359,12 +366,13 @@
         android:layout_marginEnd="8dp"
         android:contentDescription="@eightsWinner"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/d8"
         app:layout_constraintBottom_toBottomOf="@+id/jacksWinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/jacksWinner"
         app:layout_constraintTop_toBottomOf="@+id/queensWinner"
-        app:srcCompat="@drawable/d8" />
+        app:srcCompat="@drawable/d8"
+        tools:srcCompat="@drawable/d8" />
 
     <ImageView
         android:id="@+id/eightsWinner2"
@@ -374,12 +382,13 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@eightsWinner"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/d9"
         app:layout_constraintBottom_toTopOf="@+id/deck"
         app:layout_constraintEnd_toStartOf="@+id/sevensWinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/acesWinner"
-        app:srcCompat="@color/ic_launcher_background" />
+        app:srcCompat="@color/ic_launcher_background"
+        tools:srcCompat="@color/ic_launcher_background" />
 
     <ImageView
         android:id="@+id/ninesWinner"
@@ -390,12 +399,13 @@
         android:layout_marginEnd="4dp"
         android:contentDescription="@ninesWinner"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/d9"
         app:layout_constraintBottom_toBottomOf="@+id/sixesWinner"
         app:layout_constraintEnd_toStartOf="@+id/tensWinner"
         app:layout_constraintStart_toEndOf="@+id/sixesWinner"
         app:layout_constraintTop_toBottomOf="@+id/foursWinner"
-        app:srcCompat="@drawable/dj" />
+        app:srcCompat="@drawable/dj"
+        tools:srcCompat="@drawable/dj" />
 
     <ImageView
         android:id="@+id/tensWinner"
@@ -406,12 +416,13 @@
         android:layout_marginEnd="4dp"
         android:contentDescription="@tensWinner"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/d10"
         app:layout_constraintBottom_toBottomOf="@+id/ninesWinner"
         app:layout_constraintEnd_toStartOf="@+id/jacksWinner"
         app:layout_constraintStart_toEndOf="@+id/ninesWinner"
         app:layout_constraintTop_toBottomOf="@+id/fivesWinner"
-        app:srcCompat="@drawable/d10" />
+        app:srcCompat="@drawable/d10"
+        tools:srcCompat="@drawable/d10" />
 
     <ImageView
         android:id="@+id/jacksWinner"
@@ -422,12 +433,13 @@
         android:layout_marginEnd="4dp"
         android:contentDescription="@jacksWinner"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/dj"
         app:layout_constraintBottom_toBottomOf="@+id/tensWinner"
         app:layout_constraintEnd_toStartOf="@+id/eightsWinner"
         app:layout_constraintStart_toEndOf="@+id/tensWinner"
         app:layout_constraintTop_toBottomOf="@+id/kingsWinner"
-        app:srcCompat="@drawable/d9" />
+        app:srcCompat="@drawable/d9"
+        tools:srcCompat="@drawable/d9" />
 
     <ImageView
         android:id="@+id/queensWinner"
@@ -439,12 +451,13 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@queensWinner"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/dq"
         app:layout_constraintBottom_toTopOf="@+id/jacksWinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/kingsWinner"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/d7" />
+        app:srcCompat="@drawable/d7"
+        tools:srcCompat="@drawable/d7" />
 
     <ImageView
         android:id="@+id/kingsWinner"
@@ -456,12 +469,13 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@kingsWinner"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/alert_dark_frame"
+        android:src="@drawable/dk"
         app:layout_constraintBottom_toTopOf="@+id/tensWinner"
         app:layout_constraintEnd_toStartOf="@+id/queensWinner"
         app:layout_constraintStart_toEndOf="@+id/fivesWinner"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/d6" />
+        app:srcCompat="@drawable/d6"
+        tools:srcCompat="@drawable/d6" />
 
     <Button
         android:id="@+id/playButton"
