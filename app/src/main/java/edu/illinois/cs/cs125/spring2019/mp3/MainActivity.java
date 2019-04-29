@@ -197,6 +197,9 @@ public final class MainActivity extends AppCompatActivity {
             selectCard(ace, aces); // Code here executes on main thread after user presses button
         });
         final ImageButton deck = findViewById(R.id.deck);
+        deck.setOnClickListener(v -> {
+            drawACard(user); // Code here executes on main thread after user presses button
+        });
         whatIsGoingOn = findViewById(R.id.whatIsGoingOn);
         whatIsGoingOn.setText("New Game");
         buttons.add(ace);
@@ -242,7 +245,7 @@ public final class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(v -> {
             playButtonClicked();
         });
-
+        playButton.setText("ASK FOR CARDS");
     }
 
     /**
@@ -289,9 +292,9 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     *card currently selected On screen
      */
-    public String selectedCard = "";
+    private String selectedCard = "";
 
     /**
      * stuff.
@@ -300,6 +303,11 @@ public final class MainActivity extends AppCompatActivity {
      */
     public void goFish(final Player myTurn, final Player notMyTurn) {
         drawACard(myTurn);
+        if (myTurn.equals(user)) {
+            cpuTurn();
+        } else {
+            userTurn();
+        }
         //playButton.setText();
     }
 
@@ -328,7 +336,14 @@ public final class MainActivity extends AppCompatActivity {
                                      toReturn.add(card.get("code").toString());
                                 }
                             }
-                            transferCards(myTurn, notMyTurn, toReturn);
+                            if (toReturn == null || toReturn.size() == 0) {
+                                goFish(myTurn, notMyTurn);
+                                if (myTurn.equals(user)) {
+                                    whatIsGoingOn.setText("GO FISH");
+                                }
+                            } else {
+                                transferCards(myTurn, notMyTurn, toReturn);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -628,7 +643,7 @@ public final class MainActivity extends AppCompatActivity {
      * @param toSet the botton being selected
      * @param number the selected number
      */
-    private void selectCard(final ImageButton toSet, final List number) {
+    private void selectCard(final ImageButton toSet, final List<String> number) {
         if (toSet.getVisibility() != View.VISIBLE) {
             return;
         }
@@ -641,6 +656,7 @@ public final class MainActivity extends AppCompatActivity {
             }
         }*/
         selectedCards = number;
+        selectedCard = number.get(0);
     }
 
     /**
@@ -1027,6 +1043,65 @@ public final class MainActivity extends AppCompatActivity {
      */
     public void userTurn() {
         whatIsGoingOn.setText("Select the cards you want to request and hit play!");
+    }
+
+    /**
+     * turn for the cpu
+     */
+    public void cpuTurn() {
+        String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + cpu.pileName + "/shuffle";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + cpu.pileName + "/draw/?count=1";
+
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                                null, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(final JSONObject response) {
+                                        try {
+                                            JSONObject card = (JSONObject) response.getJSONArray("cards").get(0);
+                                            String cardID = card.getString("code");
+                                            askForCards(cpu, user, cardID.substring(0, 1));
+                                            String urlToPile = "https://deckofcardsapi.com/api/deck/"
+                                                    + deckId + "/pile/" + cpu.pileName + "/add/?cards=" + cardID;
+                                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlToPile,
+                                                    null, new Response.Listener<JSONObject>() {
+                                                        @Override
+                                                        public void onResponse(final JSONObject response) {
+                                                            whatIsGoingOn.setText("Do you have any " + cardID.substring(0,1) + "'s");
+
+                                                        }
+                                                    }, new Response.ErrorListener() {
+                                                        @Override
+                                                        public void onErrorResponse(final VolleyError error) {
+                                                            // TODO: Handle error
+                                                        }
+                                                    });
+                                            requestQueue.add(jsonObjectRequest);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(final VolleyError error) {
+                                        // TODO: Handle error
+                                    }
+                                });
+                        //System.out.println(deckId);
+                        requestQueue.add(jsonObjectRequest);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(final VolleyError error) {
+                        // TODO: Handle error
+                    }
+                });
+        //System.out.println(deckId);
+        requestQueue.add(jsonObjectRequest);
     }
 
     /**
