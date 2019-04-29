@@ -82,7 +82,7 @@
         app:layout_constraintBottom_toTopOf="@+id/sevenNumber"
         app:layout_constraintEnd_toStartOf="@+id/eight"
         app:layout_constraintStart_toEndOf="@+id/six"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
+        app:layout_constraintTop_toBottomOf="@+id/deck"
         app:layout_constraintVertical_chainStyle="spread_inside"
         app:srcCompat="@mipmap/chuchu" />
 
@@ -96,7 +96,7 @@
         app:layout_constraintBottom_toTopOf="@+id/sixNumber"
         app:layout_constraintEnd_toStartOf="@+id/seven"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
+        app:layout_constraintTop_toBottomOf="@+id/deck"
         app:srcCompat="@mipmap/chuchu" />
 
     <ImageButton
@@ -357,7 +357,7 @@
         android:layout_marginBottom="8dp"
         android:contentDescription="@eightsWinner"
         android:src="@android:drawable/alert_dark_frame"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton2"
+        app:layout_constraintBottom_toTopOf="@+id/deck"
         app:layout_constraintEnd_toStartOf="@+id/sevensWinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/acesWinner"
@@ -452,7 +452,7 @@
         app:layout_constraintBottom_toTopOf="@+id/king"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.443"
-        app:layout_constraintStart_toEndOf="@+id/imageButton2"
+        app:layout_constraintStart_toEndOf="@+id/deck"
         app:layout_constraintTop_toBottomOf="@+id/eightsWinner" />
 
     <TextView
@@ -609,7 +609,7 @@
         app:srcCompat="@mipmap/chuchu" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/deck"
         android:layout_width="130dp"
         android:layout_height="221dp"
         android:layout_marginStart="8dp"
