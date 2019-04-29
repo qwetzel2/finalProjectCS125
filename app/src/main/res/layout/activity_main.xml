@@ -13,11 +13,12 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="300dp"
         android:layout_marginEnd="8dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/kingNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/queen"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/sk" />
 
     <ImageButton
         android:id="@+id/jack"
@@ -27,11 +28,12 @@
         android:layout_marginTop="300dp"
         android:layout_marginEnd="4dp"
         android:contentDescription="jack"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/jackNumber"
         app:layout_constraintEnd_toStartOf="@+id/queen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/sj" />
 
     <ImageButton
         android:id="@+id/queen"
@@ -40,11 +42,12 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="300dp"
         android:layout_marginEnd="4dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/queenNumber"
         app:layout_constraintEnd_toStartOf="@+id/king"
         app:layout_constraintStart_toEndOf="@+id/jack"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/sq" />
 
     <ImageButton
         android:id="@+id/nine"
@@ -53,11 +56,12 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/nineNumber"
         app:layout_constraintEnd_toStartOf="@+id/ten"
         app:layout_constraintStart_toEndOf="@+id/eight"
         app:layout_constraintTop_toBottomOf="@+id/queenNumber"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/s9" />
 
     <ImageButton
         android:id="@+id/eight"
@@ -66,11 +70,12 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/eightNumber"
         app:layout_constraintEnd_toStartOf="@+id/nine"
         app:layout_constraintStart_toEndOf="@+id/seven"
         app:layout_constraintTop_toBottomOf="@+id/jackNumber"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/s8" />
 
     <ImageButton
         android:id="@+id/seven"
@@ -79,12 +84,13 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/sevenNumber"
         app:layout_constraintEnd_toStartOf="@+id/eight"
         app:layout_constraintStart_toEndOf="@+id/six"
         app:layout_constraintTop_toBottomOf="@+id/deck"
         app:layout_constraintVertical_chainStyle="spread_inside"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/s7" />
 
     <ImageButton
         android:id="@+id/six"
@@ -93,11 +99,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/sixNumber"
         app:layout_constraintEnd_toStartOf="@+id/seven"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deck"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/s6" />
 
     <ImageButton
         android:id="@+id/ace"
@@ -106,11 +113,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/aceNumber"
         app:layout_constraintEnd_toStartOf="@+id/two"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sixNumber"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/sa" />
 
     <ImageButton
         android:id="@+id/two"
@@ -119,11 +127,12 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/twoNumber"
         app:layout_constraintEnd_toStartOf="@+id/three"
         app:layout_constraintStart_toEndOf="@+id/ace"
         app:layout_constraintTop_toBottomOf="@+id/sevenNumber"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/s2" />
 
     <ImageButton
         android:id="@+id/three"
@@ -132,11 +141,12 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/threeNumber"
         app:layout_constraintEnd_toStartOf="@+id/four"
         app:layout_constraintStart_toEndOf="@+id/two"
         app:layout_constraintTop_toBottomOf="@+id/eightNumber"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/s3" />
 
     <ImageButton
         android:id="@+id/four"
@@ -146,12 +156,13 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="8dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/fourNumber"
         app:layout_constraintEnd_toStartOf="@+id/five"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toEndOf="@+id/three"
         app:layout_constraintTop_toBottomOf="@+id/nineNumber"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/s4" />
 
     <ImageButton
         android:id="@+id/five"
@@ -161,11 +172,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/fiveNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/four"
         app:layout_constraintTop_toBottomOf="@+id/tenNumber"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/s5" />
 
     <TextView
         android:id="@+id/threeNumber"
@@ -236,7 +248,7 @@
         app:layout_constraintEnd_toStartOf="@+id/twosWinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_camera_alt_black_24dp"
+        app:srcCompat="@drawable/da"
         tools:src="@tools:sample/backgrounds/scenic" />
 
     <ImageView
@@ -244,7 +256,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:background="@color/colorPrimary"
         android:contentDescription="@twosWinner"
@@ -252,8 +264,8 @@
         app:layout_constraintBottom_toTopOf="@+id/sevensWinner"
         app:layout_constraintEnd_toStartOf="@+id/threesWinner"
         app:layout_constraintStart_toEndOf="@+id/acesWinner"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorAccent" />
+        app:layout_constraintTop_toBottomOf="@+id/whatIsGoingOn"
+        app:srcCompat="@drawable/d2" />
 
     <ImageView
         android:id="@+id/threesWinner"
@@ -269,7 +281,7 @@
         app:layout_constraintStart_toEndOf="@+id/twosWinner"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/d3" />
 
     <ImageView
         android:id="@+id/foursWinner"
@@ -285,7 +297,7 @@
         app:layout_constraintEnd_toStartOf="@+id/fivesWinner"
         app:layout_constraintStart_toEndOf="@+id/threesWinner"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/d4" />
 
     <ImageView
         android:id="@+id/fivesWinner"
@@ -301,7 +313,7 @@
         app:layout_constraintEnd_toStartOf="@+id/kingsWinner"
         app:layout_constraintStart_toEndOf="@+id/foursWinner"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/d5" />
 
     <ImageView
         android:id="@+id/sixesWinner"
@@ -316,7 +328,7 @@
         app:layout_constraintEnd_toStartOf="@+id/ninesWinner"
         app:layout_constraintStart_toEndOf="@+id/sevensWinner"
         app:layout_constraintTop_toBottomOf="@+id/threesWinner"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/dq" />
 
     <ImageView
         android:id="@+id/sevensWinner"
@@ -331,7 +343,7 @@
         app:layout_constraintEnd_toStartOf="@+id/sixesWinner"
         app:layout_constraintStart_toEndOf="@+id/eightsWinner2"
         app:layout_constraintTop_toBottomOf="@+id/twosWinner"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/dk" />
 
     <ImageView
         android:id="@+id/eightsWinner"
@@ -346,7 +358,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/jacksWinner"
         app:layout_constraintTop_toBottomOf="@+id/queensWinner"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/d8" />
 
     <ImageView
         android:id="@+id/eightsWinner2"
@@ -376,7 +388,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tensWinner"
         app:layout_constraintStart_toEndOf="@+id/sixesWinner"
         app:layout_constraintTop_toBottomOf="@+id/foursWinner"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/dj" />
 
     <ImageView
         android:id="@+id/tensWinner"
@@ -391,7 +403,7 @@
         app:layout_constraintEnd_toStartOf="@+id/jacksWinner"
         app:layout_constraintStart_toEndOf="@+id/ninesWinner"
         app:layout_constraintTop_toBottomOf="@+id/fivesWinner"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/d10" />
 
     <ImageView
         android:id="@+id/jacksWinner"
@@ -406,7 +418,7 @@
         app:layout_constraintEnd_toStartOf="@+id/eightsWinner"
         app:layout_constraintStart_toEndOf="@+id/tensWinner"
         app:layout_constraintTop_toBottomOf="@+id/kingsWinner"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/d9" />
 
     <ImageView
         android:id="@+id/queensWinner"
@@ -422,7 +434,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/kingsWinner"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/d7" />
 
     <ImageView
         android:id="@+id/kingsWinner"
@@ -438,7 +450,7 @@
         app:layout_constraintEnd_toStartOf="@+id/queensWinner"
         app:layout_constraintStart_toEndOf="@+id/fivesWinner"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorAccent" />
+        app:srcCompat="@drawable/d6" />
 
     <Button
         android:id="@+id/playButton"
@@ -602,11 +614,12 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/tenNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/nineNumber"
         app:layout_constraintTop_toBottomOf="@+id/kingNumber"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/s10" />
 
     <ImageButton
         android:id="@+id/deck"
@@ -616,11 +629,12 @@
         android:layout_marginTop="200dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="270dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/jack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.39"
-        app:srcCompat="@mipmap/chuchu" />
+        app:srcCompat="@drawable/purple_back" />
 
 </android.support.constraint.ConstraintLayout>

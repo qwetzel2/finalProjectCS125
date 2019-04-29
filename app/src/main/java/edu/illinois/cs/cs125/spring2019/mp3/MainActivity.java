@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 //import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 //import android.view.View;
@@ -40,6 +41,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 //import com.google.gson.Gson;
 //import com.google.gson.GsonBuilder;
@@ -50,6 +52,7 @@ import com.google.gson.JsonObject;
 //import org.apache.commons.io.IOUtils;
 
 //import java.io.File;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -189,6 +192,7 @@ public final class MainActivity extends AppCompatActivity {
             selectCard(two, twos); // Code here executes on main thread after user presses button
         });
         ace = findViewById(R.id.ace);
+        ace.setVisibility(View.INVISIBLE);
         ace.setOnClickListener(v -> {
             selectCard(ace, aces); // Code here executes on main thread after user presses button
         });
@@ -208,22 +212,201 @@ public final class MainActivity extends AppCompatActivity {
         buttons.add(jack);
         buttons.add(queen);
         buttons.add(king);
+        aceNumber = findViewById(R.id.aceNumber);
         aceNumber.setVisibility(View.INVISIBLE);
+        twoNumber = findViewById(R.id.twoNumber);
         twoNumber.setVisibility(View.INVISIBLE);
+        threeNumber = findViewById(R.id.threeNumber);
         threeNumber.setVisibility(View.INVISIBLE);
+        fourNumber = findViewById(R.id.fourNumber);
         fourNumber.setVisibility(View.INVISIBLE);
+        fiveNumber = findViewById(R.id.fiveNumber);
         fiveNumber.setVisibility(View.INVISIBLE);
+        sixNumber = findViewById(R.id.sixNumber);
         sixNumber.setVisibility(View.INVISIBLE);
+        sevenNumber = findViewById(R.id.sevenNumber);
         sevenNumber.setVisibility(View.INVISIBLE);
+        eightNumber = findViewById(R.id.eightNumber);
         eightNumber.setVisibility(View.INVISIBLE);
+        nineNumber = findViewById(R.id.nineNumber);
         nineNumber.setVisibility(View.INVISIBLE);
+        tenNumber = findViewById(R.id.tenNumber);
         tenNumber.setVisibility(View.INVISIBLE);
+        jackNumber = findViewById(R.id.jackNumber);
         jackNumber.setVisibility(View.INVISIBLE);
+        queenNumber = findViewById(R.id.queenNumber);
         queenNumber.setVisibility(View.INVISIBLE);
+        kingNumber = findViewById(R.id.kingNumber);
         kingNumber.setVisibility(View.INVISIBLE);
-
+        playButton = findViewById(R.id.playButton);
+        playButton.setOnClickListener(v -> {
+            playButtonClicked();
+        });
 
     }
+
+    /**
+     * What happens when the play button is clicked.
+     */
+    public void playButtonClicked() {
+        if (playButton.getText().equals("GO FISH")) {
+            goFish(cpu, user);
+        }
+        if (playButton.getText().equals("TRANSFER CARDS")) {
+            transferCards(cpu, user, selectedCards);
+        }
+        if (playButton.getText().equals("ASK FOR CARDS")) {
+            String number;
+            if (selectedCard.startsWith("A")) {
+                number = "A";
+            } else if (selectedCard.startsWith("2")) {
+                number = "2";
+            } else if (selectedCard.startsWith("3")) {
+                number = "3";
+            } else if (selectedCard.startsWith("4")) {
+                number = "4";
+            } else if (selectedCard.startsWith("5")) {
+                number = "5";
+            } else if (selectedCard.startsWith("6")) {
+                number = "6";
+            } else if (selectedCard.startsWith("7")) {
+                number = "7";
+            } else if (selectedCard.startsWith("8")) {
+                number = "8";
+            } else if (selectedCard.startsWith("9")) {
+                number = "9";
+            } else if (selectedCard.startsWith("0")) {
+                number = "0";
+            } else if (selectedCard.startsWith("J")) {
+                number = "J";
+            } else if (selectedCard.startsWith("Q")) {
+                number = "Q";
+            } else {
+                number = "K";
+            }
+            askForCards(user, cpu, number);
+        }
+    }
+
+    /**
+     *
+     */
+    public String selectedCard = "";
+
+    /**
+     * stuff.
+     * @param myTurn the
+     * @param notMyTurn sekt
+     */
+    public void goFish(final Player myTurn, final Player notMyTurn) {
+        drawACard(myTurn);
+        //playButton.setText();
+    }
+
+
+    /**
+     * kdjflksjdlf.
+     * @param myTurn lsdkfj
+     * @param notMyTurn sdlkfj\
+     * @param number the number being asked for
+     */
+    public void askForCards(final Player myTurn, final Player notMyTurn, final String number) {
+        String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + notMyTurn.pileName + "/list"; //api URL
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        try {
+                            List<String> toReturn = new ArrayList<>();
+                            JSONArray cards = response.getJSONObject("piles").getJSONObject(notMyTurn.pileName)
+                                    .getJSONArray("cards");
+                            for (int i = 0; i < cards.length(); i++) {
+                                JSONObject card = (JSONObject) cards.get(i);
+                                System.out.println("------------" + card + "_____________");
+                                if (card.get("code").toString().startsWith(number)) {
+                                     toReturn.add(card.get("code").toString());
+                                }
+                            }
+                            transferCards(myTurn, notMyTurn, toReturn);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(final VolleyError error) {
+                        // TODO: Handle error
+                    }
+                });
+        //System.out.println(deckId);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    /**
+     * lskdjf
+     * @param myTurn lskdjf
+     * @param notMyTurn lskdjf
+     * @param cardsToTransferList the cards that will be transfer
+     */
+    public void transferCards(final Player myTurn, final Player notMyTurn, final List<String> cardsToTransferList) {
+        String cardsToTransfer = "";
+        for (int i = 0; i < cardsToTransferList.size() - 1; i++) {
+            cardsToTransfer = cardsToTransfer + cardsToTransferList.get(i) + ",";
+        }
+        cardsToTransfer = cardsToTransfer + cardsToTransferList.get(cardsToTransferList.size() - 1);
+        String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + notMyTurn.pileName
+                + "/draw/?cards=" + cardsToTransfer; //api URL
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        try {
+                            List<String> toReturn = new ArrayList<>();
+                            JSONArray cards = response.getJSONObject("piles").getJSONObject(notMyTurn.pileName)
+                                    .getJSONArray("cards");
+                            for (int i = 0; i < cards.length(); i++) {
+                                JSONObject card = (JSONObject) cards.get(i);
+                                System.out.println("------------" + card + "_____________");
+                                toReturn.add(card.get("code").toString());
+                            }
+                            String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/"
+                                    + myTurn.pileName + "/add/?cards=" + toReturn; //api URL
+
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                                    null, new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(final JSONObject response) {
+                                            whatIsGoingOn.setText("Cards have been transferred");
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(final VolleyError error) {
+                                            // TODO: Handle error
+                                        }
+                                    });
+                            //System.out.println(deckId);
+                            requestQueue.add(jsonObjectRequest);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(final VolleyError error) {
+                        // TODO: Handle error
+                    }
+                });
+        //System.out.println(deckId);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    /**
+     * Button that governs play.
+     */
+    private Button playButton;
 
     /**
      * .
@@ -450,11 +633,13 @@ public final class MainActivity extends AppCompatActivity {
             return;
         }
         toSet.setBackgroundColor(COLOR_FOR_SELECTED);
-        for (ImageButton button : buttons) {
+        /*for (ImageButton button : buttons) {
             if (!button.equals(toSet)) {
                 button.setBackgroundColor(COLOR_FOR_NON_SELECTED);
+            } else {
+                button.setBackgroundColor(COLOR_FOR_SELECTED);
             }
-        }
+        }*/
         selectedCards = number;
     }
 
@@ -632,7 +817,7 @@ public final class MainActivity extends AppCompatActivity {
                                                     nines.add(cardID);
                                                     nineNumber.setVisibility(View.VISIBLE);
                                                     ninesDrawn++;
-                                                } else if (cardID.startsWith("1")) {
+                                                } else if (cardID.startsWith("0")) {
                                                     ten.setVisibility(View.VISIBLE);
                                                     tens.add(cardID);
                                                     tenNumber.setVisibility(View.VISIBLE);
@@ -655,7 +840,9 @@ public final class MainActivity extends AppCompatActivity {
                                                 }
                                                 whatIsGoingOn.setText("You have drawn a " + cardID);
                                                 resetNumbers();
+
                                             }
+                                            pileCompleteCheck(toDraw);
                                         }
                                     }, new Response.ErrorListener() {
 
@@ -677,6 +864,120 @@ public final class MainActivity extends AppCompatActivity {
                 });
         //System.out.println(deckId);
         requestQueue.add(jsonObjectRequest);
+    }
+
+    /**
+     * Checks to see if any of the piles are complete and lays them down.
+     */
+    public void pileCompleteCheck(Player player) {
+        String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + player.pileName + "/list"; //api URL
+        List<String> acesInPile = new ArrayList<>();
+        List<String> twosInPile = new ArrayList<>();
+        List<String> threesInPile = new ArrayList<>();
+        List<String> foursInPile = new ArrayList<>();
+        List<String> fivesInPile = new ArrayList<>();
+        List<String> sixesInPile = new ArrayList<>();
+        List<String> sevensInPile = new ArrayList<>();
+        List<String> eightsInPile = new ArrayList<>();
+        List<String> ninesInPile = new ArrayList<>();
+        List<String> tensInPile = new ArrayList<>();
+        List<String> jacksInPile = new ArrayList<>();
+        List<String> queensInPile = new ArrayList<>();
+        List<String> kingsInPile = new ArrayList<>();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        try {
+                            List<String> toReturn = new ArrayList<>();
+                            JSONArray cards = response.getJSONObject("piles").getJSONObject(user.pileName)
+                                    .getJSONArray("cards");
+                            for (int i = 0; i < cards.length(); i++) {
+                                JSONObject cardJSON = (JSONObject) cards.get(i);
+                                String card = cardJSON.get("code").toString();
+                                if (card.startsWith("A")) {
+                                    acesInPile.add(card);
+                                } else if (card.startsWith("2")) {
+                                    twosInPile.add(card);
+                                } else if (card.startsWith("3")) {
+                                    threesInPile.add(card);
+                                } else if (card.startsWith("4")) {
+                                    foursInPile.add(card);
+                                } else if (card.startsWith("5")) {
+                                    fivesInPile.add(card);
+                                } else if (card.startsWith("6")) {
+                                    sixesInPile.add(card);
+                                } else if (card.startsWith("7")) {
+                                    sevensInPile.add(card);
+                                } else if (card.startsWith("8")) {
+                                    eightsInPile.add(card);
+                                } else if (card.startsWith("9")) {
+                                    ninesInPile.add(card);
+                                } else if (card.startsWith("0")) {
+                                    tensInPile.add(card);
+                                } else if (card.startsWith("J")) {
+                                    jacksInPile.add(card);
+                                } else if (card.startsWith("Q")) {
+                                    queensInPile.add(card);
+                                } else {
+                                    kingsInPile.add(card);
+                                }
+                            }
+                            if (acesInPile.size() == 4) {
+                                layDown("A", player);
+                            } else if (twosInPile.size() == 4) {
+                                layDown("2", player);
+                            } else if (threesInPile.size() == 4) {
+                                layDown("3", player);
+                            } else if (foursInPile.size() == 4) {
+                                layDown("4", player);
+                            } else if (fivesInPile.size() == 4) {
+                                layDown("5", player);
+                            } else if (sixesInPile.size() == 4) {
+                                layDown("6", player);
+                            } else if (sevensInPile.size() == 4) {
+                                layDown("7", player);
+                            } else if (eightsInPile.size() == 4) {
+                                layDown("8", player);
+                            } else if (ninesInPile.size() == 4) {
+                                layDown("9", player);
+                            } else if (tensInPile.size() == 4) {
+                                layDown("0", player);
+                            } else if (jacksInPile.size() == 4) {
+                                layDown("J", player);
+                            } else if (queensInPile.size() == 4) {
+                                layDown("Q", player);
+                            } else {
+                                layDown("K", player);
+                            }
+                            if (player.equals(user)) {
+                                whatIsGoingOn.setText("CPU Turn");
+                                pileCompleteCheck(cpu);
+                            } else {
+                                whatIsGoingOn.setText("");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(final VolleyError error) {
+                        // TODO: Handle error
+                    }
+                });
+        //System.out.println(deckId);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    /**
+     * lays down the cards from this player's hand (the pile was complete.
+     * @param number the cards to lay down
+     * @param player the player who is holding the cards
+     */
+    public void layDown(final String number, final Player player) {
+
     }
 
     /**
@@ -720,7 +1021,6 @@ public final class MainActivity extends AppCompatActivity {
         drawACard(cpu);
         drawACard(cpu);
         drawACard(cpu);
-        userTurn();
     }
     /**
      * One turn of the game.
