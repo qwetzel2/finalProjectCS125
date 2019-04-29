@@ -9,6 +9,7 @@ import android.content.Intent;
 //import android.graphics.BitmapFactory;
 //import android.graphics.Matrix;
 //import android.graphics.PorterDuff;
+//import android.media.Image;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,13 +18,14 @@ import android.os.Bundle;
 //import android.support.v4.app.ActivityCompat;
 //import android.support.v4.content.ContextCompat;
 //import android.support.v4.content.FileProvider;
-import android.provider.ContactsContract;
+//import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 //import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 //import android.view.View;
 //import android.widget.Button;
@@ -40,9 +42,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+//import com.google.gson.JsonArray;
+//import com.google.gson.JsonElement;
+//import com.google.gson.JsonObject;
 //import com.google.gson.Gson;
 //import com.google.gson.GsonBuilder;
 //import com.google.gson.JsonElement;
@@ -56,17 +58,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
+//import java.io.IOException;
 //import java.io.InputStream;
 //import java.text.SimpleDateFormat;
 //import java.util.Date;
 //import java.util.Locale;
 //import edu.illinois.cs.cs125.spring2019.mp3.lib.RecognizePhoto;
-import java.io.BufferedReader;
+//import java.io.BufferedReader;
 //import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+//import java.io.InputStreamReader;
+//import java.net.HttpURLConnection;
+//import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,14 +116,11 @@ public final class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         requestQueue = Volley.newRequestQueue(this);
-        System.out.println("----------------------------------------");
 
         super.onCreate(savedInstanceState);
-        System.out.println("----------------------------------------");
 
         // Load the main layout for our activity
         setContentView(R.layout.activity_main);
-        System.out.println("----------------------------------------");
 
         try {
             requestNewDeck();
@@ -130,11 +129,10 @@ public final class MainActivity extends AppCompatActivity {
         }
         user = new Player("user");
         cpu = new Player("cpu");
-        System.out.println("----------------------------------------");
         king = findViewById(R.id.king);
         king.setVisibility(View.INVISIBLE);
         king.setOnClickListener(v -> {
-             selectCard(king, kings); // Code here executes on main thread after user presses button
+            selectCard(king, kings); // Code here executes on main thread after user presses button
         });
         queen = findViewById(R.id.queen);
         queen.setVisibility(View.INVISIBLE);
@@ -246,6 +244,32 @@ public final class MainActivity extends AppCompatActivity {
             playButtonClicked();
         });
         playButton.setText("ASK FOR CARDS");
+        aceWinner = findViewById(R.id.acesWinner);
+        aceWinner.setVisibility(View.INVISIBLE);
+        twoWinner = findViewById(R.id.twosWinner);
+        twoWinner.setVisibility(View.INVISIBLE);
+        threeWinner = findViewById(R.id.threesWinner);
+        threeWinner.setVisibility(View.INVISIBLE);
+        fourWinner = findViewById(R.id.foursWinner);
+        fourWinner.setVisibility(View.INVISIBLE);
+        fiveWinner = findViewById(R.id.fivesWinner);
+        fiveWinner.setVisibility(View.INVISIBLE);
+        sixWinner = findViewById(R.id.kingsWinner);
+        sixWinner.setVisibility(View.INVISIBLE);
+        sevenWinner = findViewById(R.id.queensWinner);
+        sevenWinner.setVisibility(View.INVISIBLE);
+        eightWinner = findViewById(R.id.eightsWinner);
+        eightWinner.setVisibility(View.INVISIBLE);
+        nineWinner = findViewById(R.id.jacksWinner);
+        nineWinner.setVisibility(View.INVISIBLE);
+        tenWinner = findViewById(R.id.tensWinner);
+        tenWinner.setVisibility(View.INVISIBLE);
+        jackWinner = findViewById(R.id.ninesWinner);
+        jackWinner.setVisibility(View.INVISIBLE);
+        queenWinner = findViewById(R.id.sixesWinner);
+        queenWinner.setVisibility(View.INVISIBLE);
+        kingWinner = findViewById(R.id.sevensWinner);
+        kingWinner.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -290,9 +314,8 @@ public final class MainActivity extends AppCompatActivity {
             askForCards(user, cpu, number);
         }
     }
-
     /**
-     *card currently selected On screen
+     *card currently selected On screen.
      */
     private String selectedCard = "";
 
@@ -319,7 +342,7 @@ public final class MainActivity extends AppCompatActivity {
      * @param number the number being asked for
      */
     public void askForCards(final Player myTurn, final Player notMyTurn, final String number) {
-        String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + notMyTurn.pileName + "/list"; //api URL
+        String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + notMyTurn.pileName + "/list";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>() {
@@ -331,9 +354,8 @@ public final class MainActivity extends AppCompatActivity {
                                     .getJSONArray("cards");
                             for (int i = 0; i < cards.length(); i++) {
                                 JSONObject card = (JSONObject) cards.get(i);
-                                System.out.println("------------" + card + "_____________");
                                 if (card.get("code").toString().startsWith(number)) {
-                                     toReturn.add(card.get("code").toString());
+                                    toReturn.add(card.get("code").toString());
                                 }
                             }
                             if (toReturn == null || toReturn.size() == 0) {
@@ -343,6 +365,9 @@ public final class MainActivity extends AppCompatActivity {
                                 }
                             } else {
                                 transferCards(myTurn, notMyTurn, toReturn);
+                                if (myTurn.equals(user)) {
+                                    whatIsGoingOn.setText("TRANSFER CARDS");
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -355,18 +380,79 @@ public final class MainActivity extends AppCompatActivity {
                         // TODO: Handle error
                     }
                 });
-        //System.out.println(deckId);
         requestQueue.add(jsonObjectRequest);
     }
 
     /**
-     * lskdjf
+     * lskdjf.
      * @param myTurn lskdjf
      * @param notMyTurn lskdjf
      * @param cardsToTransferList the cards that will be transfer
      */
     public void transferCards(final Player myTurn, final Player notMyTurn, final List<String> cardsToTransferList) {
+        System.out.println("_______________Cards to Transfer: " + cardsToTransferList + "_________________________");
         String cardsToTransfer = "";
+        if (myTurn.equals(user)) {
+            for (String cardID : cardsToTransferList) {
+                if (cardID.startsWith("A")) {
+                    acesDrawn++;
+                } else if (cardID.startsWith("2")) {
+                    twosDrawn++;
+                } else if (cardID.startsWith("3")) {
+                    threesDrawn++;
+                } else if (cardID.startsWith("4")) {
+                    foursDrawn++;
+                } else if (cardID.startsWith("5")) {
+                    fivesDrawn++;
+                } else if (cardID.startsWith("6")) {
+                    sixesDrawn++;
+                } else if (cardID.startsWith("7")) {
+                    sevensDrawn++;
+                } else if (cardID.startsWith("8")) {
+                    eightsDrawn++;
+                } else if (cardID.startsWith("9")) {
+                    ninesDrawn++;
+                } else if (cardID.startsWith("0")) {
+                    tensDrawn++;
+                } else if (cardID.startsWith("J")) {
+                    jacksDrawn++;
+                } else if (cardID.startsWith("Q")) {
+                    queensDrawn++;
+                } else if (cardID.startsWith("K")) {
+                    kingsDrawn++;
+                }
+            }
+        } else {
+            for (String cardID : cardsToTransferList) {
+                if (cardID.startsWith("A")) {
+                    acesDrawn--;
+                } else if (cardID.startsWith("2")) {
+                    twosDrawn--;
+                } else if (cardID.startsWith("3")) {
+                    threesDrawn--;
+                } else if (cardID.startsWith("4")) {
+                    foursDrawn--;
+                } else if (cardID.startsWith("5")) {
+                    fivesDrawn--;
+                } else if (cardID.startsWith("6")) {
+                    sixesDrawn--;
+                } else if (cardID.startsWith("7")) {
+                    sevensDrawn--;
+                } else if (cardID.startsWith("8")) {
+                    eightsDrawn--;
+                } else if (cardID.startsWith("9")) {
+                    ninesDrawn--;
+                } else if (cardID.startsWith("0")) {
+                    tensDrawn--;
+                } else if (cardID.startsWith("J")) {
+                    jacksDrawn--;
+                } else if (cardID.startsWith("Q")) {
+                    queensDrawn--;
+                } else if (cardID.startsWith("K")) {
+                    kingsDrawn--;
+                }
+            }
+        }
         for (int i = 0; i < cardsToTransferList.size() - 1; i++) {
             cardsToTransfer = cardsToTransfer + cardsToTransferList.get(i) + ",";
         }
@@ -378,15 +464,16 @@ public final class MainActivity extends AppCompatActivity {
                 null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(final JSONObject response) {
+                        System.out.println("------------------" + response + "-------------------");
                         try {
                             List<String> toReturn = new ArrayList<>();
-                            JSONArray cards = response.getJSONObject("piles").getJSONObject(notMyTurn.pileName)
-                                    .getJSONArray("cards");
+                            JSONArray cards = response.getJSONArray("cards");
+                            System.out.println("++++++++++++++++++++++++" + cards + "++++++++++++++++++");
                             for (int i = 0; i < cards.length(); i++) {
                                 JSONObject card = (JSONObject) cards.get(i);
-                                System.out.println("------------" + card + "_____________");
                                 toReturn.add(card.get("code").toString());
                             }
+                            System.out.println("                To return: " + toReturn);
                             String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/"
                                     + myTurn.pileName + "/add/?cards=" + toReturn; //api URL
 
@@ -394,7 +481,10 @@ public final class MainActivity extends AppCompatActivity {
                                     null, new Response.Listener<JSONObject>() {
                                         @Override
                                         public void onResponse(final JSONObject response) {
+                                            System.out.print("YYYYYYYYYYYYYYYAAAAAAAAAAAAAAAAASSSSSSSSSSSS");
                                             whatIsGoingOn.setText("Cards have been transferred");
+                                            resetNumbers();
+                                            pileCompleteCheck(myTurn);
                                         }
                                     }, new Response.ErrorListener() {
                                         @Override
@@ -402,7 +492,6 @@ public final class MainActivity extends AppCompatActivity {
                                             // TODO: Handle error
                                         }
                                     });
-                            //System.out.println(deckId);
                             requestQueue.add(jsonObjectRequest);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -414,7 +503,6 @@ public final class MainActivity extends AppCompatActivity {
                         // TODO: Handle error
                     }
                 });
-        //System.out.println(deckId);
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -740,13 +828,11 @@ public final class MainActivity extends AppCompatActivity {
                 null, new Response.Listener<JSONObject>() {
                         @Override
             public void onResponse(final JSONObject response) {
-                        System.out.println(response.toString());
                         try {
                             deckId = (String) response.get("deck_id");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        System.out.println(deckId);
                         startGame();
                         }
                 }, new Response.ErrorListener() {
@@ -756,7 +842,6 @@ public final class MainActivity extends AppCompatActivity {
                             // TODO: Handle error
                         }
                 });
-        //System.out.println(deckId);
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -778,14 +863,12 @@ public final class MainActivity extends AppCompatActivity {
                         try {
                             JSONObject object = (JSONObject) response.getJSONArray("cards").get(0);
                             String cardID = object.get("code").toString();
-                            System.out.println("-------------" + cardID + "--------------");
                             String urlToPile = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/"
                                     + toDraw.pileName + "/add/?cards=" + cardID;
                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlToPile,
                                     null, new Response.Listener<JSONObject>() {
                                         @Override
                                         public void onResponse(final JSONObject response) {
-                                            System.out.println(response);
                                             currentCard = cardID;
                                             if (toDraw.equals(user)) {
                                                 if (cardID.startsWith("A")) {
@@ -878,14 +961,84 @@ public final class MainActivity extends AppCompatActivity {
                         // TODO: Handle error
                     }
                 });
-        //System.out.println(deckId);
         requestQueue.add(jsonObjectRequest);
     }
 
     /**
-     * Checks to see if any of the piles are complete and lays them down.
+     * .
      */
-    public void pileCompleteCheck(Player player) {
+    private ImageView aceWinner;
+
+    /**
+     * .
+     */
+    private ImageView twoWinner;
+
+    /**
+     * .
+     */
+    private ImageView threeWinner;
+
+    /**
+     * .
+     */
+    private ImageView fourWinner;
+
+    /**
+     * .
+     */
+    private ImageView fiveWinner;
+
+    /**
+     * .
+     */
+    private ImageView sixWinner;
+
+    /**
+     * .
+     */
+    private ImageView sevenWinner;
+
+    /**
+     * .
+     */
+    private ImageView eightWinner;
+
+    /**
+     * .
+     */
+    private ImageView nineWinner;
+
+    /**
+     * .
+     */
+    private ImageView tenWinner;
+
+    /**
+     * I'm getting yelled at for magic number stuff.
+     */
+    private final int n4 = 4;
+
+    /**
+     * .
+     */
+    private ImageView jackWinner;
+
+    /**
+     * .
+     */
+    private ImageView queenWinner;
+
+    /**
+     * .
+     */
+    private ImageView kingWinner;
+
+    /**
+     * Checks to see if any of the piles are complete and lays them down.
+     * @param player the player who's piles are being checked
+     */
+    public void pileCompleteCheck(final Player player) {
         String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + player.pileName + "/list"; //api URL
         List<String> acesInPile = new ArrayList<>();
         List<String> twosInPile = new ArrayList<>();
@@ -906,7 +1059,14 @@ public final class MainActivity extends AppCompatActivity {
                     public void onResponse(final JSONObject response) {
                         try {
                             List<String> toReturn = new ArrayList<>();
-                            JSONArray cards = response.getJSONObject("piles").getJSONObject(user.pileName)
+                            String playerName;
+                            if (player.equals(cpu)) {
+                                playerName = "cpu";
+                            } else {
+                                playerName = "user";
+                            }
+                            System.out.println("RESPONSE:     " + response);
+                            JSONArray cards = response.getJSONObject("piles").getJSONObject(playerName)
                                     .getJSONArray("cards");
                             for (int i = 0; i < cards.length(); i++) {
                                 JSONObject cardJSON = (JSONObject) cards.get(i);
@@ -939,36 +1099,35 @@ public final class MainActivity extends AppCompatActivity {
                                     kingsInPile.add(card);
                                 }
                             }
-                            if (acesInPile.size() == 4) {
-                                layDown("A", player);
-                            } else if (twosInPile.size() == 4) {
-                                layDown("2", player);
-                            } else if (threesInPile.size() == 4) {
-                                layDown("3", player);
-                            } else if (foursInPile.size() == 4) {
-                                layDown("4", player);
-                            } else if (fivesInPile.size() == 4) {
-                                layDown("5", player);
-                            } else if (sixesInPile.size() == 4) {
-                                layDown("6", player);
-                            } else if (sevensInPile.size() == 4) {
-                                layDown("7", player);
-                            } else if (eightsInPile.size() == 4) {
-                                layDown("8", player);
-                            } else if (ninesInPile.size() == 4) {
-                                layDown("9", player);
-                            } else if (tensInPile.size() == 4) {
-                                layDown("0", player);
-                            } else if (jacksInPile.size() == 4) {
-                                layDown("J", player);
-                            } else if (queensInPile.size() == 4) {
-                                layDown("Q", player);
-                            } else {
-                                layDown("K", player);
+                            if (acesInPile.size() == n4) {
+                                layDown("A", ace, aceNumber, aceWinner, player);
+                            } else if (twosInPile.size() == n4) {
+                                layDown("2", two, twoNumber, twoWinner, player);
+                            } else if (threesInPile.size() == n4) {
+                                layDown("3", three, threeNumber, threeWinner, player);
+                            } else if (foursInPile.size() == n4) {
+                                layDown("4", four, fourNumber, fourWinner, player);
+                            } else if (fivesInPile.size() == n4) {
+                                layDown("5", five, fiveNumber, fiveWinner, player);
+                            } else if (sixesInPile.size() == n4) {
+                                layDown("6", six, sixNumber, sixWinner, player);
+                            } else if (sevensInPile.size() == n4) {
+                                layDown("7", seven, sevenNumber, sevenWinner, player);
+                            } else if (eightsInPile.size() == n4) {
+                                layDown("8", eight, eightNumber, eightWinner, player);
+                            } else if (ninesInPile.size() == n4) {
+                                layDown("9", nine, nineNumber, nineWinner, player);
+                            } else if (tensInPile.size() == n4) {
+                                layDown("0", ten, tenNumber, tenWinner, player);
+                            } else if (jacksInPile.size() == n4) {
+                                layDown("J", jack, jackNumber, jackWinner, player);
+                            } else if (queensInPile.size() == n4) {
+                                layDown("Q", queen, queenNumber, queenWinner, player);
+                            } else  if (kingsInPile.size() == n4) {
+                                layDown("K", king, kingNumber, kingWinner, player);
                             }
                             if (player.equals(user)) {
                                 whatIsGoingOn.setText("CPU Turn");
-                                pileCompleteCheck(cpu);
                             } else {
                                 whatIsGoingOn.setText("");
                             }
@@ -983,36 +1142,126 @@ public final class MainActivity extends AppCompatActivity {
                         // TODO: Handle error
                     }
                 });
-        //System.out.println(deckId);
         requestQueue.add(jsonObjectRequest);
     }
 
     /**
      * lays down the cards from this player's hand (the pile was complete.
-     * @param number the cards to lay down
-     * @param player the player who is holding the cards
+     * @param inHandButton the cards to lay down
+     * @param number the number that was completed
+     * @param inHandNumber the number from hand
+     * @param winnerImage the image that needs to be turned on
+     * @param player the player who completed the stack
      */
-    public void layDown(final String number, final Player player) {
+    public void layDown(final String number, final ImageButton inHandButton, final TextView inHandNumber, final ImageView winnerImage, final Player player) {
+        String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + player.pileName + "/draw/?cards="
+                + number + "S," + number + "C," + number + "D," + number + "H"; //api URL
 
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        inHandButton.setVisibility(View.INVISIBLE);
+                        inHandNumber.setVisibility(View.INVISIBLE);
+                        winnerImage.setVisibility(View.VISIBLE);
+                        if (player.equals(user)) {
+                            winnerImage.setBackgroundColor(17170452);
+                        } else {
+                            winnerImage.setBackgroundColor(17170454);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(final VolleyError error) {
+                        // TODO: Handle error
+                    }
+                });
+        requestQueue.add(jsonObjectRequest);
     }
 
     /**
      * Reset the textviews for the UI.
      */
     public void resetNumbers() {
-        aceNumber.setText("x" + acesDrawn);
-        twoNumber.setText("x" + twosDrawn);
-        threeNumber.setText("x" + threesDrawn);
-        fourNumber.setText("x" + foursDrawn);
-        fiveNumber.setText("x" + fivesDrawn);
-        sixNumber.setText("x" + sixesDrawn);
-        sevenNumber.setText("x" + sevensDrawn);
-        eightNumber.setText("x" + eightsDrawn);
-        nineNumber.setText("x" + ninesDrawn);
-        tenNumber.setText("x" + tensDrawn);
-        jackNumber.setText("x" + jacksDrawn);
-        queenNumber.setText("x" + queensDrawn);
-        kingNumber.setText("x" + kingsDrawn);
+        if (acesDrawn == 0) {
+            aceNumber.setVisibility(View.INVISIBLE);
+            ace.setVisibility(View.INVISIBLE);
+        } else {
+            aceNumber.setText("x" + acesDrawn);
+        }
+        if (twosDrawn == 0) {
+            twoNumber.setVisibility(View.INVISIBLE);
+            two.setVisibility(View.INVISIBLE);
+        } else {
+            twoNumber.setText("x" + twosDrawn);
+        }
+        if (threesDrawn == 0) {
+            threeNumber.setVisibility(View.INVISIBLE);
+            three.setVisibility(View.INVISIBLE);
+        } else {
+            threeNumber.setText("x" + threesDrawn);
+        }
+        if (foursDrawn == 0) {
+            fourNumber.setVisibility(View.INVISIBLE);
+            four.setVisibility(View.INVISIBLE);
+        } else {
+            fourNumber.setText("x" + foursDrawn);
+        }
+        if (fivesDrawn == 0) {
+            fiveNumber.setVisibility(View.INVISIBLE);
+            five.setVisibility(View.INVISIBLE);
+        } else {
+            fiveNumber.setText("x" + fivesDrawn);
+        }
+        if (sixesDrawn == 0) {
+            sixNumber.setVisibility(View.INVISIBLE);
+            six.setVisibility(View.INVISIBLE);
+        } else {
+            sixNumber.setText("x" + sixesDrawn);
+        }
+        if (sevensDrawn == 0) {
+            sevenNumber.setVisibility(View.INVISIBLE);
+            seven.setVisibility(View.INVISIBLE);
+        } else {
+            sevenNumber.setText("x" + sevensDrawn);
+        }
+        if (eightsDrawn == 0) {
+            eightNumber.setVisibility(View.INVISIBLE);
+            eight.setVisibility(View.INVISIBLE);
+        } else {
+            eightNumber.setText("x" + eightsDrawn);
+        }
+        if (ninesDrawn == 0) {
+            nineNumber.setVisibility(View.INVISIBLE);
+            nine.setVisibility(View.INVISIBLE);
+        } else {
+            nineNumber.setText("x" + ninesDrawn);
+        }
+        if (tensDrawn == 0) {
+            tenNumber.setVisibility(View.INVISIBLE);
+            ten.setVisibility(View.INVISIBLE);
+        } else {
+            tenNumber.setText("x" + tensDrawn);
+        }
+        if (jacksDrawn == 0) {
+            jackNumber.setVisibility(View.INVISIBLE);
+            jack.setVisibility(View.INVISIBLE);
+        } else {
+            jackNumber.setText("x" + jacksDrawn);
+        }
+        if (queensDrawn == 0) {
+            queenNumber.setVisibility(View.INVISIBLE);
+            queen.setVisibility(View.INVISIBLE);
+        } else {
+            queenNumber.setText("x" + queensDrawn);
+        }
+        if (kingsDrawn == 0) {
+            king.setVisibility(View.INVISIBLE);
+            kingNumber.setVisibility(View.INVISIBLE);
+        } else {
+            kingNumber.setText("x" + kingsDrawn);
+        }
     }
 
     /**
@@ -1091,7 +1340,6 @@ public final class MainActivity extends AppCompatActivity {
                                         // TODO: Handle error
                                     }
                                 });
-                        //System.out.println(deckId);
                         requestQueue.add(jsonObjectRequest);
                     }
                 }, new Response.ErrorListener() {
@@ -1100,7 +1348,6 @@ public final class MainActivity extends AppCompatActivity {
                         // TODO: Handle error
                     }
                 });
-        //System.out.println(deckId);
         requestQueue.add(jsonObjectRequest);
     }
 
