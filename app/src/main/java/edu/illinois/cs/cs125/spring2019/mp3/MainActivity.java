@@ -276,7 +276,11 @@ public final class MainActivity extends AppCompatActivity {
         placeholder.setVisibility(View.INVISIBLE);
         user.color = 17170452;
         cpu.color = 17170454;
+        endGameButton = findViewById(R.id.button);
+        endGameButton.setVisibility(View.INVISIBLE);
     }
+
+    public Button endGameButton;
 
     /**
      * What happens when the play button is clicked.
@@ -372,6 +376,7 @@ public final class MainActivity extends AppCompatActivity {
                                     playButton.setText("");
                                     whatIsGoingOn.setText("GO FISH");
                                 } else {
+                                    whatIsGoingOn.setText("Do you have any " + number + "s?");
                                     playButton.setText("GO FISH");
                                 }
                             } else {
@@ -385,6 +390,7 @@ public final class MainActivity extends AppCompatActivity {
                                     whatIsGoingOn.setText("You have received " + toPrint);
                                     playButton.setText("ASK FOR A CARD");
                                 } else {
+                                    whatIsGoingOn.setText("Do you have any " + number + "s?");
                                     playButton.setText("GIVE CARDS");
                                     cardsToBeTransfered = toReturn;
                                 }
@@ -480,41 +486,44 @@ public final class MainActivity extends AppCompatActivity {
         cardsToTransfer = cardsToTransfer + cardsToTransferList.get(cardsToTransferList.size() - 1);
         String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + notMyTurn.pileName
                 + "/draw/?cards=" + cardsToTransfer; //api URL
-
+        System.out.println("CCCCCCCCCCCCCHHHHHHHHHHHHHHEEEEEEEEECCCCCCCCCCCCCCCKKKKKKKKKKKK");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(final JSONObject response) {
                         try {
-                            List<String> toReturn = new ArrayList<>();
+                            //List<String> toReturn = new ArrayList<>();
                             JSONArray cards = response.getJSONArray("cards");
                             for (int i = 0; i < cards.length(); i++) {
                                 JSONObject card = (JSONObject) cards.get(i);
-                                toReturn.add(card.get("code").toString());
-                            }
-                            String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/"
-                                    + myTurn.pileName + "/add/?cards=" + toReturn; //api URL
-
-                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
-                                    null, new Response.Listener<JSONObject>() {
-                                        @Override
-                                        public void onResponse(final JSONObject response) {
-                                            resetNumbers();
-                                            if (myTurn.equals(user)) {
-                                                whatIsGoingOn.setText("Transfer Successful. New Turn");
-                                                playButton.setText("ASK FOR A CARD");
-                                            } else {
-                                                whatIsGoingOn.setText("Transfer Successful. CPU Turn");
-                                                playButton.setText("CPU TURN");
+                                String toReturn = card.get("code").toString();
+                                System.out.println("!!!!!!!!!!!!I am getting here!!!!!!!!!!!!!!!!!!");
+                                System.out.println("----------" + toReturn + "------------");
+                                String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/"
+                                        + myTurn.pileName + "/add/?cards=" + toReturn; //api URL
+                                System.out.println("URL: " + url);
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                                        null, new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(final JSONObject response) {
+                                                System.out.println("Response: " + response);
+                                                resetNumbers();
+                                                if (myTurn.equals(user)) {
+                                                    whatIsGoingOn.setText("Transfer Successful. New Turn");
+                                                    playButton.setText("ASK FOR A CARD");
+                                                } else {
+                                                    whatIsGoingOn.setText("Transfer Successful. CPU Turn");
+                                                    playButton.setText("CPU TURN");
+                                                }
                                             }
-                                        }
-                                    }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(final VolleyError error) {
-                                            // TODO: Handle error
-                                        }
-                                    });
-                            requestQueue.add(jsonObjectRequest);
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(final VolleyError error) {
+                                                // TODO: Handle error
+                                            }
+                                        });
+                                requestQueue.add(jsonObjectRequest);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -872,6 +881,10 @@ public final class MainActivity extends AppCompatActivity {
      */
     private String currentCard;
 
+    private int numbersWonByUser;
+
+    private int numbersWonByCPU;
+
     /**
      * Draw a new card from the api.
      * @param toDraw the player who is drawing the card.
@@ -883,6 +896,9 @@ public final class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(final JSONObject response) {
                         try {
+                            if (response.getJSONArray("cards").length() == 0) {
+                                endGame(cpu);
+                            }
                             JSONObject object = (JSONObject) response.getJSONArray("cards").get(0);
                             String cardID = object.get("code").toString();
                             String urlToPile = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/"
@@ -964,7 +980,7 @@ public final class MainActivity extends AppCompatActivity {
                                                 whatIsGoingOn.setText("You have drawn a " + cardID + ". New turn for CPU");
                                                 playButton.setText("CPU TURN");
                                             } else {
-                                                whatIsGoingOn.setText("The CPU has drawn a " + cardID + ". It is now your turn.");
+                                                whatIsGoingOn.setText("The CPU has drawn a card. It is now your turn.");
                                                 playButton.setText("ASK FOR A CARD");
                                             }
                                             resetNumbers();
@@ -988,6 +1004,20 @@ public final class MainActivity extends AppCompatActivity {
                     }
                 });
         requestQueue.add(jsonObjectRequest);
+    }
+
+    /**
+     * How the game ends.
+     * @param winner the person who won
+     */
+    public void endGame(final Player winner) {
+        if (winner.equals(user)) {
+            endGameButton.setText("CONGRATULATIONS! You won the game!");
+        } else {
+            endGameButton.setText("Too bad, the CPU won. Better luck next time!");
+        }
+        endGameButton.setVisibility(View.VISIBLE);
+
     }
 
     /**
@@ -1066,7 +1096,9 @@ public final class MainActivity extends AppCompatActivity {
      * @param player the player who's piles are being checked
      */
     public void pileCompleteCheck(final Player player) {
+        System.out.println("");
         String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + player.pileName + "/list"; //api URL
+
         List<String> acesInPile = new ArrayList<>();
         List<String> twosInPile = new ArrayList<>();
         List<String> threesInPile = new ArrayList<>();
@@ -1084,6 +1116,7 @@ public final class MainActivity extends AppCompatActivity {
                 null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(final JSONObject response) {
+                        System.out.println("THIS IS player's pile     " + response);
                         try {
                             List<String> toReturn = new ArrayList<>();
                             String playerName;
@@ -1094,9 +1127,12 @@ public final class MainActivity extends AppCompatActivity {
                             }
                             JSONArray cards = response.getJSONObject("piles").getJSONObject(playerName)
                                     .getJSONArray("cards");
+                            System.out.println("THIS IS player's cards     " + cards);
+                            String toPrint = "";
                             for (int i = 0; i < cards.length(); i++) {
                                 JSONObject cardJSON = (JSONObject) cards.get(i);
                                 String card = cardJSON.get("code").toString();
+                                toPrint = toPrint + card + ", ";
                                 if (card.startsWith("A")) {
                                     acesInPile.add(card);
                                 } else if (card.startsWith("2")) {
@@ -1125,46 +1161,50 @@ public final class MainActivity extends AppCompatActivity {
                                     kingsInPile.add(card);
                                 }
                             }
-                            if (acesInPile.size() == n4) {
+                            if (acesInPile.size() == 4) {
                                 layDown("A", ace, aceNumber, aceWinner, player);
                                 aceWinner.setBackgroundColor(player.color);
-                            } else if (twosInPile.size() == n4) {
+                            } else if (twosInPile.size() == 4) {
                                 layDown("2", two, twoNumber, twoWinner, player);
                                 twoWinner.setBackgroundColor(player.color);
-                            } else if (threesInPile.size() == n4) {
+                            } else if (threesInPile.size() == 4) {
                                 layDown("3", three, threeNumber, threeWinner, player);
                                 threeWinner.setBackgroundColor(player.color);
-                            } else if (foursInPile.size() == n4) {
+                            } else if (foursInPile.size() == 4) {
                                 layDown("4", four, fourNumber, fourWinner, player);
                                 fourWinner.setBackgroundColor(player.color);
-                            } else if (fivesInPile.size() == n4) {
+                            } else if (fivesInPile.size() == 4) {
                                 layDown("5", five, fiveNumber, fiveWinner, player);
                                 fiveWinner.setBackgroundColor(player.color);
-                            } else if (sixesInPile.size() == n4) {
+                            } else if (sixesInPile.size() == 4) {
                                 layDown("6", six, sixNumber, sixWinner, player);
                                 sixWinner.setBackgroundColor(player.color);
-                            } else if (sevensInPile.size() == n4) {
+                            } else if (sevensInPile.size() == 4) {
                                 layDown("7", seven, sevenNumber, sevenWinner, player);
                                 sevenWinner.setBackgroundColor(player.color);
-                            } else if (eightsInPile.size() == n4) {
+                            } else if (eightsInPile.size() == 4) {
                                 layDown("8", eight, eightNumber, eightWinner, player);
                                 eightWinner.setBackgroundColor(player.color);
-                            } else if (ninesInPile.size() == n4) {
+                            } else if (ninesInPile.size() == 4) {
                                 layDown("9", nine, nineNumber, nineWinner, player);
                                 nineWinner.setBackgroundColor(player.color);
-                            } else if (tensInPile.size() == n4) {
+                            } else if (tensInPile.size() == 4) {
                                 layDown("0", ten, tenNumber, tenWinner, player);
                                 tenWinner.setBackgroundColor(player.color);
-                            } else if (jacksInPile.size() == n4) {
+                            } else if (jacksInPile.size() == 4) {
                                 layDown("J", jack, jackNumber, jackWinner, player);
                                 jackWinner.setBackgroundColor(player.color);
-                            } else if (queensInPile.size() == n4) {
+                            } else if (queensInPile.size() == 4) {
                                 layDown("Q", queen, queenNumber, queenWinner, player);
                                 queenWinner.setBackgroundColor(player.color);
-                            } else  if (kingsInPile.size() == n4) {
+                            } else  if (kingsInPile.size() == 4) {
                                 layDown("K", king, kingNumber, kingWinner, player);
                                 kingWinner.setBackgroundColor(player.color);
+                            } else {
+                                System.out.println("NOT A GROUP OF FOUR");
                             }
+                            System.out.println("___________THESE ARE THE CARDS____________");
+                            System.out.println(toPrint);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -1179,6 +1219,8 @@ public final class MainActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
+
+
     /**
      * lays down the cards from this player's hand (the pile was complete.
      * @param inHandButton the cards to lay down
@@ -1188,20 +1230,27 @@ public final class MainActivity extends AppCompatActivity {
      * @param player the player who completed the stack
      */
     public void layDown(final String number, final ImageButton inHandButton, final TextView inHandNumber, final ImageView winnerImage, final Player player) {
+        System.out.println("++++++++++++++++++++++++++++++++++++++");
         String url = "https://deckofcardsapi.com/api/deck/" + deckId + "/pile/" + player.pileName + "/draw/?cards="
                 + number + "S," + number + "C," + number + "D," + number + "H"; //api URL
-
+        System.out.println(url);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(final JSONObject response) {
-                        inHandButton.setVisibility(View.INVISIBLE);
-                        inHandNumber.setVisibility(View.INVISIBLE);
-                        winnerImage.setVisibility(View.VISIBLE);
+                        player.numbersWon++;
+                        if (player.numbersWon >= 7) {
+                            endGame(player);
+                        }
+                        System.out.println("-------------------------------------------------");
                         if (player.equals(user)) {
-                            winnerImage.setBackgroundColor(17170452);
+                            inHandButton.setVisibility(View.INVISIBLE);
+                            inHandNumber.setVisibility(View.INVISIBLE);
+                            winnerImage.setVisibility(View.VISIBLE);
+                            winnerImage.setBackground(getDrawable(user.color));
                         } else {
-                            winnerImage.setBackgroundColor(17170454);
+                            winnerImage.setVisibility(View.VISIBLE);
+                            winnerImage.setBackground(getDrawable(cpu.color));
                         }
                     }
                 }, new Response.ErrorListener() {

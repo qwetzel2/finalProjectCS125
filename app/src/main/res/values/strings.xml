@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Recognize Photo</string>
+    <string name="app_name">Go Fish!</string>
 
     <string name="current_image">Current Image</string>
     <string name="open_file">Open File</string>

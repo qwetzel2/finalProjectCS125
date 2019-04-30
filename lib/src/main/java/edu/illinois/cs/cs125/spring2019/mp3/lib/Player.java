@@ -20,5 +20,7 @@ public class Player {
 
     public int color;
 
+    public int numbersWon;
+
 
 }
