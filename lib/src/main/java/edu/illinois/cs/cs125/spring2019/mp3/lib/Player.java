@@ -1,5 +1,7 @@
 package edu.illinois.cs.cs125.spring2019.mp3.lib;
 
+import java.awt.Color;
+
 /**
  * The class that represents the two players in the game.
  */
@@ -15,6 +17,8 @@ public class Player {
      * The name of the pile accessed by the api of this player's cards.
      */
     public String pileName;
+
+    public int color;
 
 
 }

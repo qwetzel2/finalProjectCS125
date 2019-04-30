@@ -11,7 +11,8 @@ import android.content.Intent;
 //import android.graphics.PorterDuff;
 //import android.media.Image;
 //import android.media.Image;
-import android.media.Image;
+//import android.media.Image;
+//import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.os.Environment;
@@ -273,19 +274,24 @@ public final class MainActivity extends AppCompatActivity {
         kingWinner.setVisibility(View.INVISIBLE);
         ImageView placeholder = findViewById(R.id.eightsWinner2);
         placeholder.setVisibility(View.INVISIBLE);
+        user.color = 17170452;
+        cpu.color = 17170454;
     }
 
     /**
      * What happens when the play button is clicked.
      */
     public void playButtonClicked() {
+        if (playButton.getText().equals("CPU TURN")) {
+            cpuTurn();
+        }
         if (playButton.getText().equals("GO FISH")) {
-            goFish(cpu, user);
+            drawACard(cpu);
         }
-        if (playButton.getText().equals("TRANSFER CARDS")) {
-            transferCards(cpu, user, selectedCards);
+        if (playButton.getText().equals("GIVE CARDS")) {
+            transferCards(cpu, user, cardsToBeTransfered);
         }
-        if (playButton.getText().equals("ASK FOR CARDS")) {
+        if (playButton.getText().equals("ASK FOR A CARD")) {
             String number;
             if (selectedCard.startsWith("A")) {
                 number = "A";
@@ -327,15 +333,15 @@ public final class MainActivity extends AppCompatActivity {
      * @param myTurn the
      * @param notMyTurn sekt
      */
-    public void goFish(final Player myTurn, final Player notMyTurn) {
+    /*public void goFish(final Player myTurn, final Player notMyTurn) {
         drawACard(myTurn);
         if (myTurn.equals(user)) {
             cpuTurn();
         } else {
             userTurn();
-        }
+        }*/
         //playButton.setText();
-    }
+    //}
 
 
     /**
@@ -361,21 +367,26 @@ public final class MainActivity extends AppCompatActivity {
                                     toReturn.add(card.get("code").toString());
                                 }
                             }
-                            if (toReturn == null || toReturn.size() == 0) {
+                            if (toReturn.size() == 0) {
                                 if (myTurn.equals(user)) {
+                                    playButton.setText("");
                                     whatIsGoingOn.setText("GO FISH");
                                 } else {
-                                    whatIsGoingOn.setText("GO FISH");
                                     playButton.setText("GO FISH");
                                 }
-                                goFish(myTurn, notMyTurn);
                             } else {
-                                transferCards(myTurn, notMyTurn, toReturn);
                                 if (myTurn.equals(user)) {
-                                    whatIsGoingOn.setText("TRANSFER CARDS");
+                                    String toPrint = "";
+                                    for (int i = 0; i < toReturn.size() - 1; i++) {
+                                        toPrint = toPrint + toReturn.get(i) + ", ";
+                                    }
+                                    toPrint = toPrint + toReturn.get(toReturn.size() - 1);
+                                    transferCards(myTurn, notMyTurn, toReturn);
+                                    whatIsGoingOn.setText("You have received " + toPrint);
+                                    playButton.setText("ASK FOR A CARD");
                                 } else {
-                                    whatIsGoingOn.setText("TRANSFER CARDS");
-                                    playButton.setText("TRANSFER CARDS");
+                                    playButton.setText("GIVE CARDS");
+                                    cardsToBeTransfered = toReturn;
                                 }
                             }
                         } catch (Exception e) {
@@ -391,6 +402,8 @@ public final class MainActivity extends AppCompatActivity {
                 });
         requestQueue.add(jsonObjectRequest);
     }
+
+    public List<String> cardsToBeTransfered = new ArrayList<>();
 
     /**
      * lskdjf.
@@ -486,8 +499,14 @@ public final class MainActivity extends AppCompatActivity {
                                     null, new Response.Listener<JSONObject>() {
                                         @Override
                                         public void onResponse(final JSONObject response) {
-                                            whatIsGoingOn.setText("Cards have been transferred");
                                             resetNumbers();
+                                            if (myTurn.equals(user)) {
+                                                whatIsGoingOn.setText("Transfer Successful. New Turn");
+                                                playButton.setText("ASK FOR A CARD");
+                                            } else {
+                                                whatIsGoingOn.setText("Transfer Successful. CPU Turn");
+                                                playButton.setText("CPU TURN");
+                                            }
                                         }
                                     }, new Response.ErrorListener() {
                                         @Override
@@ -940,9 +959,15 @@ public final class MainActivity extends AppCompatActivity {
                                                     kingNumber.setVisibility(View.VISIBLE);
                                                     kingsDrawn++;
                                                 }
-                                                whatIsGoingOn.setText("You have drawn a " + cardID);
-                                                resetNumbers();
                                             }
+                                            if (toDraw.equals(user)) {
+                                                whatIsGoingOn.setText("You have drawn a " + cardID + ". New turn for CPU");
+                                                playButton.setText("CPU TURN");
+                                            } else {
+                                                whatIsGoingOn.setText("The CPU has drawn a " + cardID + ". It is now your turn.");
+                                                playButton.setText("ASK FOR A CARD");
+                                            }
+                                            resetNumbers();
                                         }
                                     }, new Response.ErrorListener() {
 
@@ -1025,6 +1050,7 @@ public final class MainActivity extends AppCompatActivity {
      */
     private ImageView jackWinner;
 
+
     /**
      * .
      */
@@ -1101,35 +1127,43 @@ public final class MainActivity extends AppCompatActivity {
                             }
                             if (acesInPile.size() == n4) {
                                 layDown("A", ace, aceNumber, aceWinner, player);
+                                aceWinner.setBackgroundColor(player.color);
                             } else if (twosInPile.size() == n4) {
                                 layDown("2", two, twoNumber, twoWinner, player);
+                                twoWinner.setBackgroundColor(player.color);
                             } else if (threesInPile.size() == n4) {
                                 layDown("3", three, threeNumber, threeWinner, player);
+                                threeWinner.setBackgroundColor(player.color);
                             } else if (foursInPile.size() == n4) {
                                 layDown("4", four, fourNumber, fourWinner, player);
+                                fourWinner.setBackgroundColor(player.color);
                             } else if (fivesInPile.size() == n4) {
                                 layDown("5", five, fiveNumber, fiveWinner, player);
+                                fiveWinner.setBackgroundColor(player.color);
                             } else if (sixesInPile.size() == n4) {
                                 layDown("6", six, sixNumber, sixWinner, player);
+                                sixWinner.setBackgroundColor(player.color);
                             } else if (sevensInPile.size() == n4) {
                                 layDown("7", seven, sevenNumber, sevenWinner, player);
+                                sevenWinner.setBackgroundColor(player.color);
                             } else if (eightsInPile.size() == n4) {
                                 layDown("8", eight, eightNumber, eightWinner, player);
+                                eightWinner.setBackgroundColor(player.color);
                             } else if (ninesInPile.size() == n4) {
                                 layDown("9", nine, nineNumber, nineWinner, player);
+                                nineWinner.setBackgroundColor(player.color);
                             } else if (tensInPile.size() == n4) {
                                 layDown("0", ten, tenNumber, tenWinner, player);
+                                tenWinner.setBackgroundColor(player.color);
                             } else if (jacksInPile.size() == n4) {
                                 layDown("J", jack, jackNumber, jackWinner, player);
+                                jackWinner.setBackgroundColor(player.color);
                             } else if (queensInPile.size() == n4) {
                                 layDown("Q", queen, queenNumber, queenWinner, player);
+                                queenWinner.setBackgroundColor(player.color);
                             } else  if (kingsInPile.size() == n4) {
                                 layDown("K", king, kingNumber, kingWinner, player);
-                            }
-                            if (player.equals(user)) {
-                                whatIsGoingOn.setText("CPU Turn");
-                            } else {
-                                whatIsGoingOn.setText("");
+                                kingWinner.setBackgroundColor(player.color);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -1293,7 +1327,7 @@ public final class MainActivity extends AppCompatActivity {
      * One turn of the game.
      */
     public void userTurn() {
-        whatIsGoingOn.setText("Select the cards you want to request and hit play!");
+
     }
 
     /**
@@ -1322,7 +1356,7 @@ public final class MainActivity extends AppCompatActivity {
                                                     Request.Method.GET, urlToPile, null, new Response.Listener<JSONObject>() {
                                                         @Override
                                                         public void onResponse(final JSONObject response) {
-                                                            whatIsGoingOn.setText("Do you have any " + cardID.substring(0, 1) + "'s");
+
                                                         }
                                                     }, new Response.ErrorListener() {
                                                         @Override
