@@ -4,7 +4,7 @@ import java.awt.Color;
 
 /**
  * The class that represents the two players in the game.
- * Lydia didn't help at all on this project.
+ * Lydia did not help at all on this project.
  */
 public class Player {
     /**
